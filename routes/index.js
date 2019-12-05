@@ -8,20 +8,14 @@ var user = require("../controllers/user/UserController")
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
-router.get('/login', function(req, res, next) {
-  res.render('user/login', { title: 'Login' });
-});
-router.post('/auth', user.login);
-router.get('/home', function(request, response) {
-	if (request.flash("loggedin") ) {
-		response.send('Welcome back, ' + request.flash("username") + '!');
-	} else {
-		response.send('Please login to view this page!');
-	}
-	response.end();
-});
+router.get('/login', user.loginGet);
+router.post('/login', user.loginPost);
+
+
 
 router.get('/signup',user.signupGet);
 router.post('/signup',user.signupPost);
+
+router.get('/profile',user.showProfile)
 
 module.exports = router;

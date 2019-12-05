@@ -1,30 +1,38 @@
 var con = require("../../config/connection")
-var login =function(request, response, next) {
+var loginGet = (req,res,next)=>{
+    res.render('user/login', { title: 'Login' })
+};
+
+var loginPost =function(request, response, next) {
     var username = request.body.username;
 	var password = request.body.password;
 	if (username && password) {
 		con.query('SELECT * FROM student WHERE user_name = ? AND password = ?', [username, password], function(error, results, fields) {
 			if (results.length > 0) {
-                request.flash("username" , username)
-
-				request.session.loggedin = true;
-				request.session.username = username;
-				response.redirect('/home');
+				console.log(username)
+                request.flash("username" , username);
+				response.redirect('/profile');
 			} else {
-				response.send('Incorrect Username and/or Password!');
-			}			
+				response.redirect('/login');
+			}
 			response.end();
         });
        
-	} else {
-		response.send('Please enter Username and Password!');
-		response.end();
-    }
+	} 
     
 }
-
+var showProfile =(req,res,next)=>{
+	var username = req.flash("username")
+	if (req.flash("username") ) {
+		res.send('Welcome back, ' + username + '!');
+	} else {
+		res.redirect('/login');
+		
+	}
+	res.end();
+}
 var signupGet = (req,res,next)=>{
-    res.render('user/userSignUp');
+    res.render('user/userSignUp',{ title: 'Sign Up' });
 };
 
 var signupPost = (req,res,next)=>{
@@ -38,7 +46,9 @@ var signupPost = (req,res,next)=>{
 module.exports={
     signupGet:signupGet,
     signupPost:signupPost,
-    login : login
+	loginPost : loginPost,
+	loginGet:loginGet,
+	showProfile:showProfile
 
 }
 

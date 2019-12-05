@@ -1,6 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
+
+
+var controller = require('../controller/userController')
+
 var user = require("../controllers/user/UserController")
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -18,4 +22,8 @@ router.get('/home', function(request, response) {
 	}
 	response.end();
 });
+
+router.get('/signup',controller.signupGet);
+router.post('/signup',controller.signupPost);
+
 module.exports = router;

@@ -22,8 +22,7 @@ var loginPost =function(request, response, next) {
     
 }
 var showProfile =(req,res,next)=>{
-	var username = req.flash("username")
-	if (req.flash("username") ) {
+	if (Authentication(req,res) ) {
 		res.send('Welcome back, ' + username + '!');
 	} else {
 		res.redirect('/login');
@@ -43,6 +42,16 @@ var signupPost = (req,res,next)=>{
     });
     res.redirect('/');
 }
+
+var Authentication= (req,res)=>{
+
+	if (req.flash("username"))
+	{
+		res.redirect('/login');
+	}
+
+}
+
 module.exports={
     signupGet:signupGet,
     signupPost:signupPost,

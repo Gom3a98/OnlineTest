@@ -3,7 +3,6 @@ var con = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
-  password: '12345678',
   database: 'online_test'
 })
 con.connect((err)=> {
@@ -13,8 +12,4 @@ con.connect((err)=> {
 
 
 module.exports= con ;
-
-module.exports ={
-    con : con
-}
 

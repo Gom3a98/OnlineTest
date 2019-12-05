@@ -1,9 +1,9 @@
-var myConnection = require("../../config/connection")
+var con = require("../../config/connection")
 var login =function(request, response, next) {
     var username = request.body.username;
 	var password = request.body.password;
 	if (username && password) {
-		myConnection.con.query('SELECT * FROM student WHERE user_name = ? AND password = ?', [username, password], function(error, results, fields) {
+		con.query('SELECT * FROM student WHERE user_name = ? AND password = ?', [username, password], function(error, results, fields) {
 			if (results.length > 0) {
                 request.flash("username" , username)
 
@@ -23,14 +23,16 @@ var login =function(request, response, next) {
     
 }
 
-var UserModel = require('../../model/modelUser')
-
 var signupGet = (req,res,next)=>{
-    res.render('userSignUp');
+    res.render('user/userSignUp');
 };
 
 var signupPost = (req,res,next)=>{
-    UserModel.signup(req.body);
+	var sql = "INSERT INTO student (user_name, email,password,phone_number) VALUES ('"+req.body.name+"','"+req.body.email+"','"+req.body.password+"','"+req.body.phone+"')" ;
+    con.query(sql, function (err, result) {
+      if (err) throw err;
+      console.log("1 record inserted");
+    });
     res.redirect('/');
 }
 module.exports={

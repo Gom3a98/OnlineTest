@@ -6,7 +6,7 @@ var login =function(request, response, next) {
 		myConnection.con.query('SELECT * FROM student WHERE user_name = ? AND password = ?', [username, password], function(error, results, fields) {
 			if (results.length > 0) {
                 request.flash("username" , username)
-                
+
 				request.session.loggedin = true;
 				request.session.username = username;
 				response.redirect('/home');
@@ -23,7 +23,20 @@ var login =function(request, response, next) {
     
 }
 
+var UserModel = require('../../model/modelUser')
 
-module.exports  ={
-    login : login
+var signupGet = (req,res,next)=>{
+    res.render('userSignUp');
+};
+
+var signupPost = (req,res,next)=>{
+    UserModel.signup(req.body);
+    res.redirect('/');
 }
+module.exports={
+    signupGet:signupGet,
+    signupPost:signupPost,
+    login : login
+
+}
+

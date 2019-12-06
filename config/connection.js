@@ -4,7 +4,7 @@ var con = mysql.createConnection({
   user: 'root',
   password: '12345678',
   database: 'online_test'
-})
+});
 con.connect((err)=> {
   if (err) throw err;
   console.log("Connected!");

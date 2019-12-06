@@ -1,8 +1,7 @@
 var express = require('express');
 var router = express.Router();
-
-var HR = require("../controllers/HR/hrController")
-var user = require("../controllers/user/UserController")
+var HR = require("../app/controllers/HR/hrController")
+var user = require("../app/controllers/user/UserController")
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });

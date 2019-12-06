@@ -1,5 +1,6 @@
 var con = require("../../../config/connection")
 var Student = require("../../Model/Student")
+
 var Authentication= async(req,res)=>{
 	
 	if (!req.session.userName)
@@ -7,6 +8,7 @@ var Authentication= async(req,res)=>{
 	else
 		return true;
 }
+
 module.exports={
 	signupGet: (req,res,next)=>{
 		res.render('user/userSignUp',{ title: 'Sign Up' });
@@ -15,9 +17,11 @@ module.exports={
 		req.body.password=Student.hashfun(req.body.password);
 		Student.createStudent(req,function (err) {
 			if (err) throw err;
-			res.redirect('/');
+			req.flash("username" , req.body.name)
+			res.render("home" , {username : req.flash("username")});
 		});
 	},
+
 	loginPost :(req, res, next)=> {
 		
 		var username = req.body.username;
@@ -31,12 +35,14 @@ module.exports={
 				}
 				else
 					res.redirect('/login')
+
 		});
 	},
 	loginGet:(req,res,next)=>{
 		req.session.destroy();
 		res.render('user/login', { title: 'Login' })
 	},
+
 	showProfile:async(req,res,next)=>{
 		console.log(req.session);
 		if(await Authentication(req,res))

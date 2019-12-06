@@ -1,4 +1,5 @@
 con = require("../../config/connection");
+
 const bcrypt = require('bcryptjs');
 
 module.exports = {
@@ -21,6 +22,7 @@ module.exports = {
         con.query('SELECT * FROM  online_test.student WHERE user_name = ? AND password = ?',
             [user_name, password], callback)
     },
+
     findStudentByUserName : function(user_name  , callback){
         con.query('SELECT * FROM  online_test.student WHERE user_name = ?',
             [user_name], callback)

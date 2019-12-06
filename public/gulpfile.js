@@ -12,7 +12,7 @@ function browserSync(done) {
     server: {
       baseDir: "./"
     },
-    port: 3000
+    port: 3001
   });
   done();
 }
@@ -31,7 +31,7 @@ function clean() {
 // Bring third party dependencies from node_modules into vendor directory
 function modules() {
   // Bootstrap
-  var bootstrap = gulp.src('./node_modules/bootstrap/dist/**/*')
+  var bootstrap = gulp.src('../node_modules/bootstrap/dist/**/*')
     .pipe(gulp.dest('./vendor/bootstrap'));
   // jQuery
   var jquery = gulp.src([

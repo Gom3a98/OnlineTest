@@ -1,7 +1,7 @@
 var con = require("../../../config/connection")
 var Student = require("../../Model/Student")
 var Authentication= (req,res)=>{
-	if (req.flash("username"))
+	if (!req.flash("username"))
 	{
 		res.redirect('/login');
 	}
@@ -13,13 +13,15 @@ module.exports={
 	signupPost: (req,res,next)=>{
 		Student.createStudent(req,function (err) {
 			if (err) throw err;
-			res.redirect('/');
+			req.flash("username" , req.body.name)
+			res.render("home" , {username : req.flash("username")});
 		});
 	},
-	loginPost :(request, response, next)=> {
+	loginPost : (request, response, next)=> {
 		var username = request.body.username;
 		var password = request.body.password;
 		var x =   Student.findStudentByUserNameAndPassword(username,password,()=>{
+
 			request.flash("username" , username);
 			request.flash("user_id" , );
 			response.redirect('/profile');
@@ -37,6 +39,5 @@ module.exports={
 		}
 		res.end();
 	}
-
 };
 

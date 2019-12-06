@@ -1,6 +1,6 @@
 var con = require("../../../config/connection")
 var Student = require("../../Model/Student")
-
+var Position = require("../../model/Position")
 var Authentication= async(req,res)=>{
 	
 	if (!req.session.userName)
@@ -17,8 +17,8 @@ module.exports={
 		req.body.password=Student.hashfun(req.body.password);
 		Student.createStudent(req,function (err) {
 			if (err) throw err;
-			req.flash("username" , req.body.name)
-			res.render("home" , {username : req.flash("username")});
+			req.session.userName = req.body.name;
+			res.redirect("/profile")
 		});
 	},
 
@@ -44,13 +44,20 @@ module.exports={
 	},
 
 	showProfile:async(req,res,next)=>{
-		console.log(req.session);
-		if(await Authentication(req,res))
-			res.send('Welcome back, ' + req.session.userName + '!');
+		if(await Authentication(req,res)) {
+			Position.getAllPositions(function (err , results) {
+				console.log("results");
+				res.render("user/profile", {
+					username: req.session.userName,
+					positions : results
+
+				});
+			});
+		}
 		else
 			res.redirect('/login')
 		//Authentication(req,res).then(res.send('Welcome back, ' + req.session.userName + '!'));
 		
-		} 
+		},
 };
 

@@ -1,1 +1,17 @@
 <h1>Hello Mr. {{username}}</h1>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Upload CV</th>
+        <th scope="col">Apply</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#positions}}
+        <tr>
+            <td>{{this.title}}</td>
+        </tr>
+    {{/positions}}
+    </tbody>
+</table>

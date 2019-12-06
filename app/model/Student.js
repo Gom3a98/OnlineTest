@@ -1,5 +1,7 @@
 con = require("../../config/connection");
-const bcrypt = require("bcryptjs");
+
+const bcrypt = require('bcryptjs');
+
 module.exports = {
     getAllStudents: function(callback) {
         con.query("SELECT * FROM student", callback)
@@ -21,10 +23,14 @@ module.exports = {
             [user_name, password], callback)
     },
 
-};
-var hashfun = (password)=>{
-    return bcrypt.hashSync(password,bcrypt.genSaltSync(5),null);
-};
-var compare =(userPassword,hashPassword)=>{
-    return bcrypt.compareSync(userPassword, hashPassword);
+    findStudentByUserName : function(user_name  , callback){
+        con.query('SELECT * FROM  online_test.student WHERE user_name = ?',
+            [user_name], callback)
+    },
+    hashfun : (password)=>{
+        return bcrypt.hashSync(password,10);
+    },
+    compare :(userPassword,hashPassword)=>{
+        return bcrypt.compareSync(userPassword, hashPassword);
+    }
 };

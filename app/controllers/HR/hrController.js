@@ -10,7 +10,7 @@ var store = function(request , response){
     var description = request.body.description;
     Position.savePosition(title,description,availability,(err, result)=> {
         if (err) throw err;
-        response.redirect("/hrDashboard");
+        response.redirect("/HR/hrDashboard");
     });
 
 };

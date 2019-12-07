@@ -44,13 +44,20 @@ module.exports={
 	},
 
 	showProfile:async(req,res,next)=>{
-		console.log(req.session);
-		if(await Authentication(req,res))
-			res.send('Welcome back, ' + req.session.userName + '!');
-		else
-			res.redirect('/login')
-		//Authentication(req,res).then(res.send('Welcome back, ' + req.session.userName + '!'));
-		
-		} 
+        if(await Authentication(req,res)) {
+            Position.getAllPositions(function (err , results) {
+                console.log("results");
+                res.render("user/profile", {
+                    username: req.session.userName,
+                    positions : results
+
+                });
+            });
+        }
+        else
+            res.redirect('/login')
+        //Authentication(req,res).then(res.send('Welcome back, ' + req.session.userName + '!'));
+
+        }
 };
 

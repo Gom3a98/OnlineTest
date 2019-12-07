@@ -7,6 +7,10 @@ module.exports ={
             "('"+title+"','"+description+"','"+availability+"')" ;
         con.query(sql ,callback)
 
+    },
+    getAllPositions : (callback)=>{
+        let sql = "SELECT * FROM online_test.position";
+        con.query(sql , callback)
     }
 };
 

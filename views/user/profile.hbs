@@ -1,17 +1,102 @@
-<h1>Hello Mr. {{username}}</h1>
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th scope="col">Title</th>
-        <th scope="col">Upload CV</th>
-        <th scope="col">Apply</th>
-    </tr>
-    </thead>
-    <tbody>
-    {{#positions}}
-        <tr>
-            <td>{{this.title}}</td>
-        </tr>
-    {{/positions}}
-    </tbody>
-</table>
+
+<ul class="nav justify-content-center pt-md-2">
+    <li class="nav-item">
+        <a class="nav-link active" href="#">profile</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Exams</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Jobs</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">{{username}}</a>
+    </li>
+</ul>
+<hr>
+<div class="container">
+    <div class="row col-md-11 pt-4">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Apply</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#positions}}
+                <tr>
+                    <td>{{this.title}}</td>
+                    <td>
+                        <a href="#my_modal" class = "btn btn-primary" data-toggle="modal" data-pos-id="{{this.id}}" data-book-id="{{this.description}}">Apply</a>
+                    </td>
+                </tr>
+            {{/positions}}
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="my_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" action="/uploadCV" enctype="multipart/form-data" id="myform">
+            <div class="modal-body">
+                <p class="desc"></p>
+
+                    <input name="myId" type="text" value="" id = "myId"/>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="file" name="file">
+                        <label class="custom-file-label" for="file">Choose file</label>
+                    </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" >Upload</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    jQuery(document).ready(function(){
+        // id of the button id="but_upload"
+        jQuery('#my_modal').on('show.bs.modal', function(e) {
+            var bookId = jQuery(e.relatedTarget).data('book-id');
+            var posId = jQuery(e.relatedTarget).data('pos-id');
+            jQuery(e.currentTarget).find('.desc').append(bookId);
+            jQuery(e.currentTarget).find('#myId').val(posId);
+        });
+
+        jQuery('button#but_upload').click(function(e){
+            e.preventDefault();
+            var fd = new FormData();
+            var files = $('#file')[0].files[0];
+            var PosId = $("input[name='myId']");
+            fd.append('file',files);
+            fd.append('posId' , PosId);
+            $.ajax({
+                url: "/uploadCV",
+                method: 'post',
+                data: {
+                    name : "ahmed",
+                    age : 20
+                },
+                success: function(result){
+                    if (result.success)
+                    {
+                       suc(availableHours);
+                    }
+                    else
+                        alert(result.failed);
+                }});
+        });
+    });
+</script>

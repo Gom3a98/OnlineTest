@@ -9,5 +9,8 @@ router.get('/', function(req, res, next) {
 router.get('/createPositionForm' , HR.create);
 router.post('/store' , HR.store);
 
-router.get('/hrDashboard' , HR.ViewDashBoard)
+router.get('/hrDashboard' , HR.ViewDashBoard);
+router.get('/ListApplicants' , HR.ListApplicants);
+
+
 module.exports = router;

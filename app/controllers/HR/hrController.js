@@ -1,9 +1,9 @@
 var con = require("../../../config/connection");
 var Position = require("../../model/Position");
-
+var Applicant = require("../../model/Applicants");
 var create = function(request , response){
     response.render("hr/createFormForNewPosition")
-}
+};
 var store = function(request , response){
     var title = request.body.title;
     var availability= request.body.availability;
@@ -16,9 +16,16 @@ var store = function(request , response){
 };
 var ViewDashBoard = (request,response)=>{
     response.render('hr/MainDashboard');
-}
+};
+var ListApplicants = (req , res)=>{
+    Applicant.getAllPositions((err , results )=>{
+        res.send(results)
+    })
+
+};
 module.exports = {
     create : create,
     store : store,
-    ViewDashBoard : ViewDashBoard
-}
+    ViewDashBoard : ViewDashBoard,
+    ListApplicants:ListApplicants
+};

@@ -1,6 +1,6 @@
-var con = require("../../../config/connection")
-var Student = require("../../Model/Student")
-var Position = require("../../model/Position")
+var Student = require("../../Model/Student");
+var Position = require("../../model/Position");
+var Applicant = require("../../model/Applicants")
 var Authentication= async(req,res)=>{
 	
 	if (!req.session.userName)
@@ -31,6 +31,7 @@ module.exports={
 			if(result.length==1&&Student.compare(req.body.password,result[0].password))	
 				{
 					req.session.userName = username;
+					req.session.studentId = result[0].id;
 					res.redirect('/profile');
 				}
 				else
@@ -42,7 +43,6 @@ module.exports={
 		req.session.destroy();
 		res.render('user/login', { title: 'Login' })
 	},
-
 	showProfile:async(req,res,next)=>{
 
         if(await Authentication(req,res)) {
@@ -61,44 +61,11 @@ module.exports={
 
         },
 	uploadCV : function(req, res){
-		message = '';
-		console.log(req);
-		/*
-		if(req.method == "POST"){
-			var post  = req.body;
-			var name= post.user_name;
-			var pass= post.password;
-			var fname= post.first_name;
-			var lname= post.last_name;
-			var mob= post.mob_no;
-
-			if (!req.files)
-				return res.status(400).send('No files were uploaded.');
-
-			var file = req.files.uploaded_image;
-			var img_name=file.name;
-
-			if(file.mimetype == "image/jpeg" ||file.mimetype == "image/png"||file.mimetype == "image/gif" ){
-
-				file.mv('public/images/upload_images/'+file.name, function(err) {
-
-					if (err)
-
-						return res.status(500).send(err);
-					var sql = "INSERT INTO `users_image`(`first_name`,`last_name`,`mob_no`,`user_name`, `password` ,`image`) VALUES ('" + fname + "','" + lname + "','" + mob + "','" + name + "','" + pass + "','" + img_name + "')";
-
-					var query = db.query(sql, function(err, result) {
-						res.redirect('profile/'+result.insertId);
-					});
-				});
-			} else {
-				message = "This format is not allowed , please upload file with '.png','.gif','.jpg'";
-				res.render('index.ejs',{message: message});
-			}
-		} else {
-			res.render('index');
-		}
-*/
+		var studentId = req.session.studentId;
+		var positionId = req.body.posId;
+		Applicant.saveApplication(studentId , positionId , ()=>{
+			res.redirect("/profile");
+		});
 	}
 };
 

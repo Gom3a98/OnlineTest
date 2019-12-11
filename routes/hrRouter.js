@@ -11,6 +11,6 @@ router.post('/store' , HR.store);
 
 router.get('/hrDashboard' , HR.ViewDashBoard);
 router.get('/ListApplicants' , HR.ListApplicants);
-
+router.get('/SendMail/:id' , HR.SendMail);
 
 module.exports = router;

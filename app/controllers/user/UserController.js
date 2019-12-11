@@ -72,6 +72,8 @@ module.exports={
 
 		var oldpath = files.filetoupload.path;
       var newpath = 'D:/fci/4th year/Level 4 Term 1/IS345 - Internet Applications/project2/OnlineTest/public/CVS/' +req.session.userName+".pdf";
+	 //gomath path:
+	 
 	  fs.removeSync(newpath,null); 
 	  fs.move(oldpath, newpath, function (err) {
 		if (err) throw err;

@@ -99,7 +99,7 @@
         </div>
       </nav>
       <div class="container-fluid body_t">
-          <div id="tableApp"></div>
+          
       </div>
 
     </div>
@@ -614,7 +614,7 @@ Delete and Update question
 </script>
 <script>
 
-    $("#menu-toggle").click(function (e) {
+  //  $("#menu-toggle").click(function (e) {
 
         $(document).ready(() => {
             var pressed_btn_id;
@@ -636,8 +636,8 @@ Delete and Update question
                                 '</tr>'
                     });
                     table += "</tbody></table>";
-                    if ($("#tableApp").text() == "")
-                        $("#tableApp").append(table);
+                   // if ($("#tableApp").text() == "")
+                        $(".body_t").html(table);
                 })
             });
             var studentId = 16;
@@ -667,6 +667,6 @@ Delete and Update question
             //var x =  $(this).attr('id')
             alert($(this).attr('href'))
 
-        });
+      //  });
     })
 </script>

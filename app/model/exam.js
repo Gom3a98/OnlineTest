@@ -45,8 +45,8 @@ DeleteExam:function(id,callback){
     var query = "DELETE FROM online_test.exams WHERE examID = "+id;
     con.query(query,callback);
 },
-DeleteQuestion:function(id,callback){
-    var query = "DELETE FROM online_test.question WHERE qid = "+id;
+DeleteQuestion:function(questionBody,callback){
+    var query = "DELETE FROM online_test.question WHERE questionBody = "+questionBody;
     con.query(query,callback);
 },
 DeleteAnswer:function(id,callback){
@@ -58,8 +58,8 @@ UpdateExam:function(id,examTitle,examDuration,callback){
     console.log(query)
     con.query(query,callback);
 },
-UpdateQuestion:function(id,oldQuestionID,newquestionBody,callback){
-    var query = "UPDATE online_test.question SET questionBody= '" + newquestionBody +"' WHERE qid= '"+oldQuestionID+"' and examID= '"+id+"'";
+UpdateQuestion:function(id,oldQuestionBody,newquestionBody,callback){
+    var query = "UPDATE online_test.question SET questionBody= '" + newquestionBody +"' WHERE questionBody= '"+oldQuestionBody+"' and examID= '"+id+"'";
     console.log(query)
     con.query(query,callback);
 },

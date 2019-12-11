@@ -41,31 +41,34 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Apply</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="/uploadCV" method="post" id="myform">
+
+            <!-- Modal -->
+            <form method="post" action="fileupload" enctype="multipart/form-data" id="myform">
             <div class="modal-body">
                 <p class="desc"></p>
-
-                    <input name="posId" type="text" value="" id = "myId"/>
-<!--                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="file" name="file">
-                        <label class="custom-file-label" for="file">Choose file</label>
-                    </div>-->
-
+                    <div class="custom-file">
+                        <label class="custom-file-label" for="file">Choose your CV</label>
+                        <input type="file" class="custom-file-input CV" id="file" name="filetoupload"/><br>
+                    </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" id="upload_btn" class="btn btn-primary" >Upload</button>
+                <button type="submit" class="btn btn-primary uploadCV" >Upload</button>
+
             </div>
             </form>
         </div>
     </div>
 </div>
+
 <script>
+
+
     jQuery(document).ready(function(){
         // id of the button id="but_upload"
         jQuery('#my_modal').on('show.bs.modal', function(e) {
@@ -83,6 +86,7 @@
 
           //  $(this).addClass('btn-success').removeClass('btn-primary ');
         });
+
         jQuery('button#but_upload').click(function(e){
             e.preventDefault();
             var fd = new FormData();

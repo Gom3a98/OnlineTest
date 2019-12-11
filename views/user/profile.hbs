@@ -28,7 +28,7 @@
                 <tr>
                     <td>{{this.title}}</td>
                     <td>
-                        <a href="#my_modal" class = "btn btn-primary" data-toggle="modal" data-pos-id="{{this.id}}" data-book-id="{{this.description}}">Apply</a>
+                        <a href="#my_modal" id="btn{{this.id}}" class = "btn btn-primary" data-toggle="modal" data-pos-id="{{this.id}}" data-book-id="{{this.description}}">Apply</a>
                     </td>
                 </tr>
             {{/positions}}
@@ -46,6 +46,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+
             <!-- Modal -->
             <form method="post" action="fileupload" enctype="multipart/form-data" id="myform">
             <div class="modal-body">
@@ -54,11 +55,11 @@
                         <label class="custom-file-label" for="file">Choose your CV</label>
                         <input type="file" class="custom-file-input CV" id="file" name="filetoupload"/><br>
                     </div>
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary uploadCV" >Upload</button>
+
             </div>
             </form>
         </div>
@@ -76,9 +77,15 @@
             jQuery(e.currentTarget).find('.desc').append(bookId);
             jQuery(e.currentTarget).find('#myId').val(posId);
         });
+        var pressed_btn_id ;
+        $("a").click(function() {
+            pressed_btn_id = this.id;
+        });
+        $('#upload_btn').click(function() {
+            $("#"+pressed_btn_id).removeClass('btn-primary').addClass('btn-success disabled ');
 
-
-
+          //  $(this).addClass('btn-success').removeClass('btn-primary ');
+        });
 
         jQuery('button#but_upload').click(function(e){
             e.preventDefault();

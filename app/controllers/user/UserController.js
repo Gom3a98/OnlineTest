@@ -1,11 +1,10 @@
 var con = require("../../../config/connection")
-var Student = require("../../Model/Student")
-var Position = require("../../model/Position")
+var Student = require("../../Model/Student");
+var Position = require("../../model/Position");
+var Applicant = require("../../model/Applicants")
 var formidable = require('formidable');
 //var fs = require('fs');
 const fs = require('fs-extra');
-
-
 
 var Authentication= async(req,res)=>{
 	
@@ -37,6 +36,7 @@ module.exports={
 			if(result.length==1&&Student.compare(req.body.password,result[0].password))	
 				{
 					req.session.userName = username;
+					req.session.studentId = result[0].id;
 					res.redirect('/profile');
 				}
 				else
@@ -48,7 +48,6 @@ module.exports={
 		req.session.destroy();
 		res.render('user/login', { title: 'Login' })
 	},
-
 	showProfile:async(req,res,next)=>{
 
         if(await Authentication(req,res)) {
@@ -66,6 +65,7 @@ module.exports={
         //Authentication(req,res).then(res.send('Welcome back, ' + req.session.userName + '!'));
 
         },
+
 	uploadCV : function(req, res,next){
 		var form = new formidable.IncomingForm();
 		form.parse(req, function (err, fields, files) {

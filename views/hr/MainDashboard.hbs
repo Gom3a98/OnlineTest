@@ -1,13 +1,317 @@
 <!DOCTYPE html>
 <html lang="en">
+<style>
+  body {
+    overflow-x: hidden;
+  }
+
+  #sidebar-wrapper {
+    min-height: 100vh;
+    margin-left: -15rem;
+    -webkit-transition: margin .25s ease-out;
+    -moz-transition: margin .25s ease-out;
+    -o-transition: margin .25s ease-out;
+    transition: margin .25s ease-out;
+  }
+
+  #sidebar-wrapper .sidebar-heading {
+    padding: 0.875rem 1.25rem;
+    font-size: 1.2rem;
+  }
+
+  #sidebar-wrapper .list-group {
+    width: 15rem;
+  }
+
+  #page-content-wrapper {
+    min-width: 100vw;
+  }
+
+  #wrapper.toggled #sidebar-wrapper {
+    margin-left: 0;
+  }
+
+  @media (min-width: 768px) {
+    #sidebar-wrapper {
+      margin-left: 0;
+    }
+
+    #page-content-wrapper {
+      min-width: 0;
+      width: 100%;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+      margin-left: -15rem;
+    }
+  }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+
+  var modaHead = '<div class="modal-dialog" role="document">'
+  modaHead += '<div class="modal-content">';
+  modaHead += '<div class="modal-header">'
+
+
+  var modaAfterTitle = '<button type="button" class="close" data-dismiss="modal" aria-label="Close">'
+  modaAfterTitle += '<span aria-hidden="true">&times;</span>'
+  modaAfterTitle += '</button>'
+  modaAfterTitle += '</div>'
+  modaAfterTitle += '<div class="modal-body">'
+
+  var modaAfterBody = '</div>'
+  modaAfterBody += '<div class="modal-footer">'
+
+  var afterFoter = '</div></div></div></div>'
+
+  $(document).on('click', '.addExam', function () {
+    if (isNaN($(".examDuration").val()) || $(".examTitle").val().length == 0 || $(".examDuration").val().length == 0) {
+      alert("Wrong in input requirments :(");
+    }
+    else {
+      $.post("/hr/hrDashboard/insertExam",
+        {
+          ExamTitle: $(".examTitle").val(),
+          ExamDuration: $(".examDuration").val()
+        },
+        function (data, status) {
+          
+          if (data == '1') {
+            location.reload();
+          }
+          else
+            alert("Error happened in query")
+        })
+
+    }
+  });
+
+  $(document).on('click', '.Delete_Exam', function () {
+    if (isNaN($(".DU_examID").val()) || $(".DU_examID").val().length == 0) {
+      alert("Wrong in input requirments :(");
+    }
+    else {
+      $.post("/hr/hrDashboard/deleteExam",
+        {
+          ID: $(".DU_examID").val()
+        },
+        function (data, status) {
+          if (data == '1')
+            location.reload();
+          else
+            alert("Error happened in query")
+        })
+
+    }
+  });
+
+  $(document).on('click', '.Update_Exam', function () {
+    if (isNaN($(".DU_examID").val()) || isNaN($(".DU_quizDuration").val()) || $(".DU_examID").val().length == 0 || $(".DU_ExamTitle").val().length == 0 || $(".DU_ExamDuration").val().length == 0) {
+      alert("Wrong in input requirments :(");
+    }
+    else {
+      $.post("/hr/hrDashboard/updateExam",
+        {
+          ID: $(".DU_examID").val(),
+          Examtitle: $(".DU_ExamTitle").val(),
+          ExamDuration: $(".DU_ExamDuration").val()
+        },
+        function (data, status) {
+          if (data == '1')
+            location.reload();
+          else
+            alert("Error happened in query")
+        })
+
+    }
+  });
+
+  $(document).on('click', '.addQuestion', function () {
+    if (isNaN($(".examID").val()) || $(".examID").val().length == 0 || $(".QuestionBody").val().length == 0 || $(".AnswerBody").val().length == 0) {
+      alert("Wrong in input requirments :(");
+    }
+    else {
+      $.post("/hr/hrDashboard/insertQuestion",
+        {
+          Correct: $(".Correct").is(":checked"),
+          examID: $(".examID").val(),
+          QuestionBody: $(".QuestionBody").val(),
+          AnswerBody: $(".AnswerBody").val()
+        },
+        function (data, status) {
+          
+          if (data == '1')
+            $('.addQuestion').hide()
+          else
+            alert("Error happened in query")
+        })
+
+    }
+  })
+
+  $(document).on('click', '.UpdateQuestion', function () {
+    if (isNaN($(".QexamID").val()) || $(".QexamID").val().length == 0 || $(".oldQuestionID").val().length == 0 || $(".newQuestion").val().length == 0) {
+      alert("Wrong in input requirments :(");
+    }
+    else {
+      $.post("/hr/hrDashboard/updateQuestion",
+        {
+          ID: $(".QexamID").val(),
+          oldQuestionID: $(".oldQuestionID").val(),
+          newQuestion: $(".newQuestion").val()
+        },
+        function (data, status) {
+          if (data == '1')
+            $(".UpdateQuestion").hide();
+          else
+            alert("Error happened in query")
+        })
+    }
+  })
+
+  $(document).on('click', '.DeleteQuestion', function () {
+    if (isNaN($(".QexamID").val()) || $(".QexamID").val().length == 0) {
+      alert("Wrong in input requirments :(");
+    }
+    else {
+      $.post("/hr/hrDashboard/deleteQuestion",
+        {
+
+          oldQuestionID: $(".oldQuestionID").val(),
+
+        },
+        function (data, status) {
+          if (data == '1')
+            $(".DeleteQuestion").hide();
+          else
+            alert("Error happened in query")
+        })
+    }
+  })
+
+  $(document).on('click', '.addAnswer', function () {
+    if (isNaN($(".questionIDAnswer").val()) || $(".questionIDAnswer").val().length == 0 || $(".AnswerBodyCreate").val().length == 0) {
+      alert("Wrong in input requirments :(");
+    }
+    else {
+      $.post("/hr/hrDashboard/insertAnswer",
+        {
+          Correct: $('.CorrectAnswer').is(":checked"),
+          questionID: $(".questionIDAnswer").val(),
+          AnswerBody: $(".AnswerBodyCreate").val()
+        },
+        function (data, status) {
+          if (data == '1')
+            $('.addAnswer').hide()
+          else
+            alert("Error happened in query")
+        })
+
+    }
+  })
+
+  $(document).on('click', '.UpdateAnswer', function () {
+    if (isNaN($(".AnswerIDUD").val()) || $(".AnswerIDUD").val().length == 0 || $(".AnswerBodyUD").val().length == 0 ) {
+      alert("Wrong in input requirments :(");
+    }
+    else {
+      $.post("/hr/hrDashboard/updateAnswer",
+        {
+          ID: $(".AnswerIDUD").val(),
+          AnswerBody: $(".AnswerBodyUD").val(),
+          correct: $(".correctUD").is(":checked")
+        },
+        function (data, status) {
+          if (data == '1')
+            $(".UpdateAnswer").hide();
+          else
+            alert("Error happened in query")
+        })
+    }
+  })
+  $(document).on('click', '.DeleteAnswer', function () {
+    if (isNaN($(".AnswerIDUD").val()) || $(".AnswerIDUD").val().length == 0) {
+      alert("Wrong in input requirments :(");
+    }
+    else {
+      $.post("/hr/hrDashboard/deleteAnswer",
+        {
+          ID: $(".AnswerIDUD").val(),
+        },
+        function (data, status) {
+          if (data == '1')
+            $(".DeleteAnswer").hide();
+          else
+            alert("Error happened in query")
+        })
+    }
+  })
+
+  $(document).on('click', '.exams_details', function () {
+    var arr = '<div class="modal fade " id="editexam" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+    var y = $(this).val();
+    arr += modaHead;
+    arr += '<h5 class="modal-title" id="exampleModalLabel">' + $(this).text() + '</h5>'
+    arr += modaAfterTitle
+    $.post("/hr/hrDashboard/examDetails",
+      {
+        id: $(this).val()
+      },
+      function (data, status) {
+        arr += '<table class="table table-dark"><thead><tr><th scope="col">Question Body</th><th scope="col">Answer Body</th><th scope="col">Correct</th></tr>  </thead><tbody>'
+        data.forEach((item) => {
+          //arr += '<tr><th scope="row">'+'<input type=text value=' + item.questionBody + '></th><td>' +'<input type=text value=' + item["AnswerBody"] + '></td><td>' +'<input type=text value=' + item.correct + '></td></tr>'
+          arr += '<tr><th scope="row">' + item.questionBody + '</th><td>' + item["AnswerBody"] + '</td><td>' + item.correct + '</td></tr>'
+        })
+        arr += '</tbody></table>'
+        arr += modaAfterBody;
+        arr += '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>'
+        arr += afterFoter;
+        $('.moda').html(arr);
+      });
+  });
+  
+  $(document).ready(() => {
+    $('.examlist').click(() => {
+      $.get("/hr/hrDashboard/listExams", (data) => {
+        var arr = ''
+        arr += "<table class='table'><thead class='thead-dark'><tr> <th scope='col'>ID</th><th scope='col'>Title</th> <th scope='col'>Duration</th> </tr> </thead> <tbody>"
+        data.forEach(function (item) {
+          arr += ('<tr><th scope="row">' + item.examID + '</th><td>' + item["examTitle"] + '</td><td>' + item.Duration + '</td></tr>')
+        });
+        arr += "</tbody> </table>"
+        $('.body_t').html(arr)
+      })
+    })
+    $('.mangeExam').click(() => {
+      $.get("/hr/hrDashboard/listExams", (data) => {
+        var arr = '';
+        arr += "<table class='table'><thead class='thead-dark'><tr> <th scope='col'>ID</th><th scope='col'>Title</th> <th scope='col'>Duration</th> </tr> </thead> <tbody>"
+
+        data.forEach(function (item) {
+          // arr += '<button type="button" class="btn btn-primary exams_editExam" data-toggle="modal" data-target="#editexam"value=' + item.examID + '>' + item.examTitle + '</button><br>'
+          arr += ('<tr><th scope="row">' + item.examID + '</th><td>' + '<button type="button" class="btn btn-link exams_details" data-toggle="modal" data-target="#editexam"value=' + item.examID + '>' + item.examTitle + '</button>' + '</td><td>' + item.Duration + '</td></tr>')
+        })
+        arr += '<button type="button" class="btn btn-primary insertExam" data-toggle="modal" data-target="#insertExam">Insert Exam</button>'
+        arr += '<button type="button" style="margin-left: 10px;"class="btn btn-primary " data-toggle="modal" data-target="#insertQuestion">Insert Question</button>'
+        arr += '<button type="button" style="margin-left: 10px;"class="btn btn-primary " data-toggle="modal" data-target="#insertAnswer">Insert Answer</button>'
+        arr += '<button type="button" style="margin-left: 10px;" class="btn btn-primary" data-toggle="modal" data-target="#DandU" >Delete and Update Exam</button>'
+        arr += '<button type="button" style="margin-left: 10px;" class="btn btn-primary" data-toggle="modal" data-target="#DandUQuestion" >Delete and Update question</button>'
+        arr += '<button type="button" style="margin-left: 10px;" class="btn btn-primary" data-toggle="modal" data-target="#DandUAnswer" >Delete and Update Answer</button>'
+
+        $('.body_t').html(arr);
+      })
+    })
+  })
+
+</script>
 
 <head>
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-
   <title>Dashboard</title>
 
   <!-- Bootstrap core CSS -->
@@ -26,11 +330,11 @@
     <div class="bg-light border-right" id="sidebar-wrapper">
       <div class="sidebar-heading">HR Dashboard</div>
       <div class="list-group list-group-flush">
-          <a href="#" class="list-group-item list-group-item-action bg-light">List Applicants</a>
-          <a href="#" class="list-group-item list-group-item-action bg-light">List Exams</a>
-          <a href="#" class="list-group-item list-group-item-action bg-light">Candidates Progress</a>
-          <a href="#" class="list-group-item list-group-item-action bg-light">Manage Exams</a>
-          <a href="#" class="list-group-item list-group-item-action bg-light">Manage Positions</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">List Applicants</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light examlist">List Exams</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Candidates Progress</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light mangeExam">Manage Exams</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Manage Positions</a>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -41,7 +345,8 @@
       <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
         <button class="btn btn-primary" id="menu-toggle">Menu</button>
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -58,13 +363,16 @@
         </div>
       </nav>
 
-      <div class="container-fluid">
-        <h1 class="mt-4">List of All applicants</h1>
+      <div class="container-fluid body_t">
+
+
       </div>
+
     </div>
     <!-- /#page-content-wrapper -->
 
   </div>
+
   <!-- /#wrapper -->
 
   <!-- Bootstrap core JavaScript -->
@@ -73,12 +381,254 @@
 
   <!-- Menu Toggle Script -->
   <script>
-    $("#menu-toggle").click(function(e) {
+    $("#menu-toggle").click(function (e) {
       e.preventDefault();
       $("#wrapper").toggleClass("toggled");
     });
   </script>
+  <!-- 
+
+Insert Exam
+-->
+  <div class="modal fade" id="insertExam" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">insert Exam</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">exam Title:</label>
+              <input type="text" class="form-control examTitle" id="recipient-name">
+            </div>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Duration:</label>
+              <input type="text" class="form-control examDuration" id="recipient-name">
+            </div>
+
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary addExam">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
 </body>
+<div class="moda"></div>
 
 </html>
+
+
+<!-- 
+Insert Question
+-->
+<div class="modal fade" id="insertQuestion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">insert Question</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Exam Id:</label>
+            <input type="text" class="form-control examID" id="recipient-name">
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Question:</label>
+            <input type="text" class="form-control QuestionBody" id="recipient-name">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Answer:</label>
+            <textarea class="form-control AnswerBody" id="message-text"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Correct:</label>
+            <input type="checkbox" class="form-control Correct" id="recipient-name">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary addQuestion">save</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!-- 
+
+Delete and Update Exam
+-->
+<div class="modal fade" id="DandU" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Exam</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">QuixID:</label>
+            <input type="text" class="form-control DU_examID" id="recipient-name">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Exam Title:</label>
+            <textarea class="form-control DU_ExamTitle" id="message-text"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Exam Duration:</label>
+            <input type="text" class="form-control DU_ExamDuration" id="recipient-name">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary Delete_Exam">Delete</button>
+        <button type="button" class="btn btn-primary Update_Exam">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 
+
+Delete and Update question
+-->
+
+<div class="modal fade" id="DandUQuestion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update and Delete Question</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">QuizID:</label>
+            <input type="text" class="form-control QexamID" id="recipient-name">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">old Question:</label>
+            <textarea class="form-control  oldQuestionID" id="message-text"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">new Question:</label>
+            <input type="text" class="form-control newQuestion" id="recipient-name">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary DeleteQuestion">Delete</button>
+        <button type="button" class="btn btn-primary UpdateQuestion">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- 
+Insert Answer
+-->
+<div class="modal fade" id="insertAnswer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">insert Answer</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">question Id:</label>
+            <input type="text" class="form-control questionIDAnswer" id="recipient-name">
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Answer:</label>
+            <input type="text" class="form-control AnswerBodyCreate" id="recipient-name">
+          </div>
+
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Correct:</label>
+            <input type="checkbox" class="form-control CorrectAnswer" id="recipient-name">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary addAnswer">save</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!-- 
+
+Delete and Update Answer
+-->
+
+<div class="modal fade" id="DandUAnswer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update and Delete Answer</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Answer ID:</label>
+            <input type="text" class="form-control AnswerIDUD" id="recipient-name">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Answer Body:</label>
+            <textarea class="form-control  AnswerBodyUD" id="message-text"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">correct:</label>
+            <input type="checkbox" class="form-control correctUD" id="recipient-name">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary DeleteAnswer">Delete</button>
+        <button type="button" class="btn btn-primary UpdateAnswer">Update</button>
+      </div>
+    </div>
+  </div>
+</div>

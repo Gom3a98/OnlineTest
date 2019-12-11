@@ -139,10 +139,10 @@ var updateAnswer=(req,res,next)=>{
             res.send('0')
         else
             res.send('1')
-    })
-}
-
+    });
 };
+
+
 var ListApplicants = (req , res)=>{
     Applicant.getAllPositions((err , results )=>{
         res.send(results)

@@ -16,5 +16,5 @@ router.post('/signup',user.signupPost);
 
 router.get('/profile',user.showProfile)
 
-router.post("/uploadCV" , user.uploadCV)
+router.post("/fileupload" , user.uploadCV)
 module.exports = router;

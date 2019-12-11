@@ -32,5 +32,10 @@ module.exports = {
     },
     compare :(userPassword,hashPassword)=>{
         return bcrypt.compareSync(userPassword, hashPassword);
+    },
+    addCV:(cvPath,studentName,callback)=>{
+        var query="UPDATE online_test.student SET CV= '" + cvPath +"' WHERE user_name= '"+studentName+"'"
+        con.query(query,callback);
     }
+
 };

@@ -1,6 +1,12 @@
 var con = require("../../../config/connection")
 var Student = require("../../Model/Student")
 var Position = require("../../model/Position")
+var formidable = require('formidable');
+//var fs = require('fs');
+const fs = require('fs-extra');
+
+
+
 var Authentication= async(req,res)=>{
 	
 	if (!req.session.userName)
@@ -60,45 +66,22 @@ module.exports={
         //Authentication(req,res).then(res.send('Welcome back, ' + req.session.userName + '!'));
 
         },
-	uploadCV : function(req, res){
-		message = '';
-		console.log(req);
-		/*
-		if(req.method == "POST"){
-			var post  = req.body;
-			var name= post.user_name;
-			var pass= post.password;
-			var fname= post.first_name;
-			var lname= post.last_name;
-			var mob= post.mob_no;
+	uploadCV : function(req, res,next){
+		var form = new formidable.IncomingForm();
+		form.parse(req, function (err, fields, files) {
 
-			if (!req.files)
-				return res.status(400).send('No files were uploaded.');
+		var oldpath = files.filetoupload.path;
+      var newpath = 'D:/fci/4th year/Level 4 Term 1/IS345 - Internet Applications/project2/OnlineTest/public/CVS/' +req.session.userName+".pdf";
+	  fs.removeSync(newpath,null); 
+	  fs.move(oldpath, newpath, function (err) {
+		if (err) throw err;
+		Student.addCV(newpath,req.session.userName,null);
+        res.write('File uploaded and moved!');
+        res.end();
+      });
+	})
+}
 
-			var file = req.files.uploaded_image;
-			var img_name=file.name;
 
-			if(file.mimetype == "image/jpeg" ||file.mimetype == "image/png"||file.mimetype == "image/gif" ){
-
-				file.mv('public/images/upload_images/'+file.name, function(err) {
-
-					if (err)
-
-						return res.status(500).send(err);
-					var sql = "INSERT INTO `users_image`(`first_name`,`last_name`,`mob_no`,`user_name`, `password` ,`image`) VALUES ('" + fname + "','" + lname + "','" + mob + "','" + name + "','" + pass + "','" + img_name + "')";
-
-					var query = db.query(sql, function(err, result) {
-						res.redirect('profile/'+result.insertId);
-					});
-				});
-			} else {
-				message = "This format is not allowed , please upload file with '.png','.gif','.jpg'";
-				res.render('index.ejs',{message: message});
-			}
-		} else {
-			res.render('index');
-		}
-*/
-	}
 };
 

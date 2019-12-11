@@ -7,7 +7,8 @@ module.exports = {
         con.query("SELECT * FROM student", callback)
     },
     getStudentById: function( id, callback) {
-        con.query('SELECT * FROM student WHERE id = ?',[id], callback)
+        console.log(id);
+        con.query('SELECT * FROM online_test.student WHERE id = ?',[id], callback)
     },
     createStudent: function(req, callback) {
         con.query(

@@ -313,12 +313,58 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <title>Dashboard</title>
+<style>
 
+    body {
+        overflow-x: hidden;
+    }
+
+    #sidebar-wrapper {
+        min-height: 100vh;
+        margin-left: -15rem;
+        -webkit-transition: margin .25s ease-out;
+        -moz-transition: margin .25s ease-out;
+        -o-transition: margin .25s ease-out;
+        transition: margin .25s ease-out;
+    }
+
+    #sidebar-wrapper .sidebar-heading {
+        padding: 0.875rem 1.25rem;
+        font-size: 1.2rem;
+    }
+
+    #sidebar-wrapper .list-group {
+        width: 15rem;
+    }
+
+    #page-content-wrapper {
+        min-width: 100vw;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        margin-left: 0;
+    }
+
+    @media (min-width: 768px) {
+        #sidebar-wrapper {
+            margin-left: 0;
+        }
+
+        #page-content-wrapper {
+            min-width: 0;
+            width: 100%;
+        }
+
+        #wrapper.toggled #sidebar-wrapper {
+            margin-left: -15rem;
+        }
+    }
+</style>
   <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!--  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">-->
 
   <!-- Custom styles for this template -->
-  <link href="css/simple-sidebar.css" rel="stylesheet">
+<!--  <link href="public/css/simple-sidebar.css" rel="stylesheet">-->
 
 </head>
 
@@ -330,11 +376,12 @@
     <div class="bg-light border-right" id="sidebar-wrapper">
       <div class="sidebar-heading">HR Dashboard</div>
       <div class="list-group list-group-flush">
-        <a href="#" class="list-group-item list-group-item-action bg-light">List Applicants</a>
+        <a href="#" id="ListApp" class="list-group-item list-group-item-action bg-light">List Applicants</a>
         <a href="#" class="list-group-item list-group-item-action bg-light examlist">List Exams</a>
         <a href="#" class="list-group-item list-group-item-action bg-light">Candidates Progress</a>
         <a href="#" class="list-group-item list-group-item-action bg-light mangeExam">Manage Exams</a>
         <a href="#" class="list-group-item list-group-item-action bg-light">Manage Positions</a>
+
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -349,7 +396,6 @@
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
             <li class="nav-item active">
@@ -362,15 +408,35 @@
           </ul>
         </div>
       </nav>
-
       <div class="container-fluid body_t">
-
-
+          {{#if true}}
+              <h1>hshhfs</h1>
+          {{/if}}
+          <div id="tableApp"></div>
       </div>
 
     </div>
     <!-- /#page-content-wrapper -->
-
+      <div class="modal fade" id="my_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <p class="desc"></p>
+                      <input name="stId" type="text" value="" id ="stId"/>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" id="refuseBtn" class="btn btn-danger" data-dismiss="modal">Refuse</button>
+                      <button type="button" id="acceptBtn" class="btn btn-success" data-dismiss="modal">Accept</button>
+                  </div>
+              </div>
+          </div>
+      </div>
   </div>
 
   <!-- /#wrapper -->
@@ -378,13 +444,65 @@
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <!-- Menu Toggle Script -->
   <script>
+
     $("#menu-toggle").click(function (e) {
+
+      $(document).ready(()=>{
+          var pressed_btn_id;
+      $("#ListApp").click((e)=>{
+        $.get("/hr/ListApplicants",(data)=>{
+            var table = '<h1 class="mt-4">List of All applicants</h1>' +
+                    '<table class="table table-striped"><thead><tr>' +
+                    '<th scope="col">Student</th>' +
+                    ' <th scope="col">Position</th>' +
+                    '</tr></thead><tbody>';
+            data.forEach((item)=>{
+                table+='<tr>' +
+                        '<td>'+item["user_name"]+'</td>' +
+                        '<td>'+item["title"]+'</td>' +
+                        '<td>' +
+                        '<a href="#my_modal" class = "btn btn-primary dd " data-toggle="modal" data-book-id="'+item['id']+'">Preview</a>' +
+                        '</td>'
+                        +
+                        '</tr>'
+            });
+            table+="</tbody></table>";
+            if($("#tableApp").text()=="")
+                 $("#tableApp").append(table);
+        })
+      });
+      var studentId = 16;
+      $("#acceptBtn").click(()=>{
+          $.getJSON("/hr/SendMail/"+studentId,(data)=>{
+              console.log("In Data Retrieval  " + pressed_btn_id);
+              if (data.message == "Sent")
+              {
+                  console.log("Its Ok");
+                  $("#"+pressed_btn_id).removeClass('btn-primary').addClass('btn-success disabled ');
+              }
+          })
+      });
+
+
+    $("#menu-toggle").click(function(e) {
       e.preventDefault();
       $("#wrapper").toggleClass("toggled");
     });
+
+  })
+      $(document).on('show.bs.modal', '#my_modal' ,function(e) {
+          e.preventDefault();
+          var bookId = jQuery(e.relatedTarget).data('book-id');
+          jQuery(e.currentTarget).find('#stId').val("bookId");
+      });
+      $("table").on('click' , 'a.dd' ,()=>{
+         //var x =  $(this).attr('id')
+          alert($(this).attr('href'))
+
+      })
   </script>
   <!-- 
 

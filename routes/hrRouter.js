@@ -8,6 +8,7 @@ router.get('/', function(req, res, next) {
 });
 router.get('/createPositionForm' , HR.create);
 router.post('/store' , HR.store);
+
 router.get('/hrDashboard' , HR.ViewDashBoard)
 
 router.get('/hrDashboard/listExams',HR.listExams)
@@ -23,5 +24,10 @@ router.post('/hrDashboard/updateQuestion',HR.updateQuestion)
 router.post('/hrDashboard/insertAnswer',HR.createAnswer)
 router.post('/hrDashboard/deleteAnswer',HR.deleteAnswer)
 router.post('/hrDashboard/updateAnswer',HR.updateAnswer)
+
+router.get('/hrDashboard' , HR.ViewDashBoard);
+router.get('/ListApplicants' , HR.ListApplicants);
+router.get('/SendMail/:id' , HR.SendMail);
+
 
 module.exports = router;

@@ -112,12 +112,13 @@
                     <td>{{this.user_name}}</td>
                     <td>{{this.title}}</td>
                     <td>
-                        <a href="#my_modal"  id="{{this.id}}--{{this.CV}}" class="btn btn-primary dd " data-toggle="modal" data-book-id="{{this.id}}">Preview</a>
+                        <a href="#my_modal"  id="{{this.id}}--{{this.CV}}--{{this.pid}}" class="btn btn-primary dd " data-toggle="modal" data-book-id="{{this.id}}">Preview</a>
                     </td>
                 </tr>
                 {{/results}}
                 </tbody>
             </table>
+
         </div>
 
     </div>
@@ -133,16 +134,54 @@
                 </div>
                 <div class="modal-body">
                     <p class="desc"></p>
-                    <embed id = "CV" src=dd.pdf" width="500" height="500">
-                    <input name="stId" type="text" value="" id ="stId"/>
+                    <embed id = "CV" src="" width="450" height="500">
+                    <input name="stId" type="text" hidden value="" id ="stId"/>
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="refuseBtn" class="btn btn-danger" data-dismiss="modal">Refuse</button>
-                    <button type="button" id="acceptBtn" class="btn btn-success" data-dismiss="modal">Accept</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal"
+                            data-toggle="modal" id="approve" data-target="#my_modal2">Accept</button>
+<!--                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">-->
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<div class="modal fade" id="my_modal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <form action="/hr/approval" method="post">
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <input type="text" id="exam_list" name="exam_list" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                </div>
+                <div class="my-1 input-group mb-3">
+                    <select class="custom-select" id="select1" name="exams">
+                        <option selected>Choose...</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" name="Ids" hidden value="" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                </div>
+                    <div class="input-group mb-3">
+                        <input type="date" name="deadline" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                    </div>
+            </div>
+            <div class="modal-footer">
+<!--                <button type="button" id="refuseBtn" class="btn btn-danger" data-dismiss="modal">Refuse</button>-->
+                <button type="submit" id="acceptBtn" class="btn btn-success">Send</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
 </div>
 
 <!-- /#wrapper -->
@@ -151,9 +190,30 @@
 <!--<script src="vendor/jquery/jquery.min.js"></script>-->
 <!--<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
 <!-- Menu Toggle Script -->
 <script>
     $(document).ready(() => {
+        $("#select1").change(function(){
+            var selectedCountry = $(this).children("option:selected").text();
+            var current  = $("#exam_list").val();
+            $("#exam_list").val(current+" - "+selectedCountry);
+           // alert("You have selected the country - " + selectedCountry);
+        });
+        $("#approve").click(()=>{
+            $("input[name=Ids]").val($("#stId").val())
+            $.get("/hr/hrDashboard/listExams",(data)=>{
+                console.log(data);
+                data.forEach((item) => {
+                    $('#select1').append("<option value="+item.examID+">"+ item.examTitle+" </option>");
+                })
+
+            })
+        });
+/*
         $("#acceptBtn").click(() => {
             var studentId = $("#stId").val();
 
@@ -165,6 +225,7 @@
                 }
             })
         });
+*/
 
 
         $("#menu-toggle").click(function (e) {
@@ -178,9 +239,8 @@
         pressed_btn_id = arr[0];
         var path = arr[1];
         path = "public/CVS/"+path
-        alert(path);
         //alert(pressed_btn_id)
-        jQuery(document).find('#stId').val(pressed_btn_id);
+        jQuery(document).find('#stId').val(pressed_btn_id+"--"+arr[2]);
         jQuery(document).find('#CV').attr("src", path);
     });
         // jQuery('#my_modal').on('show.bs.modal', function(e) {

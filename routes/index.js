@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var user = require("../app/controllers/user/UserController")
+var user = require("../app/controllers/user/UserController");
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -19,4 +19,6 @@ router.get('/profile',user.showProfile)
 router.post("/fileupload" , user.uploadCV)
 
 router.get('/checkUserName',user.checkUserName)
+
+
 module.exports = router;

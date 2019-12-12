@@ -79,7 +79,7 @@ module.exports={
 	  fs.move(oldpath, newpath, function (err) {
 		if (err) throw err;
 		Student.addCV(absPath,req.session.userName,null);
-		Applicant.saveApplication()
+		// Applicant.saveApplication()
         res.write('File uploaded and moved!');
         res.end();
       });

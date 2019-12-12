@@ -30,4 +30,16 @@ router.get('/ListApplicants' , HR.ListApplicants);
 router.get('/SendMail/:id' , HR.SendMail);
 
 
+router.get('/searchStudentEmail',HR.searchCanEmail)
+router.get('/searchStudentName',HR.searchCandUserName)
+router.get('/searchExamTitle',HR.searchExamTitle)
+router.get('/searchExamDuration',HR.serachExamDuration)
+router.get('/searchExamQuestion',HR.searchExamQuestion)
+
+
+router.get('/Test',(req,res,next)=>{
+  res.render('exam/examList')
+})
+
+
 module.exports = router;

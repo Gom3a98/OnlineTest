@@ -37,6 +37,14 @@ module.exports = {
     addCV:(cvPath,studentName,callback)=>{
         var query="UPDATE online_test.student SET CV= '" + cvPath +"' WHERE user_name= '"+studentName+"'"
         con.query(query,callback);
-    }
+    },
+    searchCandEmail:function(email,callback){
+        var query = "select * from online_test.student where email = '"+email+"'" ;
+        con.query(query,callback);
+    },
+    searchCandUserName:function(userName,callback){
+        var query = "select * from online_test.student where user_name = '"+userName+"'" ;
+        con.query(query,callback);
+    },
 
 };

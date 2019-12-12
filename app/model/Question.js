@@ -16,4 +16,8 @@ module.exports = {
         var query = "UPDATE online_test.question SET questionBody= '" + newquestionBody +"' WHERE questionBody= '"+oldQuestionBody+"' and examID= '"+id+"'";
         con.query(query,callback);
     },
+    seacrhExamQuestion:function(questionBody,callback){
+        var query = "select * from online_test.question JOIN online_test.answer  ON question.qid = answer.qid where questionBody='"+questionBody+"'" ;
+        con.query(query,callback);
+    },
 };

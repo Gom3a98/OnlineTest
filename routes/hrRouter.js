@@ -4,6 +4,7 @@ var HR = require("../app/controllers/HR/hrController");
 var positionController = require("../app/controllers/HR/PositionController");
 var ExamController = require("../app/controllers/HR/ExamController");
 var QuestionController = require("../app/controllers/HR/QuestionController");
+var SearchController = require("../app/controllers/HR/SearchController");
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
@@ -30,6 +31,12 @@ router.post('/hrDashboard/updateAnswer',QuestionController.updateAnswer);
 router.get('/hrDashboard' , HR.ViewDashBoard);
 router.get('/ListApplicants' , HR.ListApplicants);
 router.get('/SendMail/:id' , HR.SendMail);
+
+router.get('/searchStudentEmail',SearchController.searchCanEmail);
+router.get('/searchStudentName',SearchController.searchCandUserName);
+router.get('/searchExamTitle',SearchController.searchExamTitle);
+router.get('/searchExamDuration',SearchController.serachExamDuration);
+router.get('/searchExamQuestion',SearchController.searchExamQuestion);
 
 
 module.exports = router;

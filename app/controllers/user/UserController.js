@@ -82,7 +82,20 @@ module.exports={
         res.end();
       });
 	})
-}
+},
+	checkUserName:function(req,res,next){
+		var userName = req.query.userName ;
+		console.log(userName[0])
+		Student.searchCandUserName(userName[0],(err,result)=>{
+			if(err)throw err ;
+			console.log(result)
+			if(result.length==0)
+				res.send('1');
+			else
+				res.send('0');
+		})
+	}
+
 
 
 };

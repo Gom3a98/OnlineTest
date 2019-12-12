@@ -22,4 +22,12 @@ module.exports={
         var query = "UPDATE online_test.exams SET examTitle= '" + examTitle +"', Duration= '"+examDuration+"' WHERE examID="+id;
         con.query(query,callback);
     },
+    searchExamTitle:function(examTitle,callback){
+        var query = "select * from online_test.exams JOIN online_test.question  ON question.examID = exams.examID   where examTitle='"+examTitle+"'" ;
+        con.query(query,callback);
+    },
+    searchExamDuration:function(examDuration,callback){
+        var query = "select * from online_test.exams where Duration='"+examDuration+"'" ;
+        con.query(query,callback);
+    },
 }

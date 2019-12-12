@@ -38,5 +38,7 @@ router.get('/searchExamTitle',SearchController.searchExamTitle);
 router.get('/searchExamDuration',SearchController.serachExamDuration);
 router.get('/searchExamQuestion',SearchController.searchExamQuestion);
 
-
+router.get('/Test',(req,res,next)=>{
+  res.render('exam/examList')
+})
 module.exports = router;

@@ -5,7 +5,8 @@ var ViewDashBoard = (request,response)=>{
 };
 var ListApplicants = (req , res)=>{
     Applicant.getAllPositions((err , results )=>{
-        res.send(results)
+        //res.send(results);
+        res.render("hr/Applications" , {results : results})
     })
 };
 var SendMail = (req ,res )=> {

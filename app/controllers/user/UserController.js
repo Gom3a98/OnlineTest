@@ -18,15 +18,15 @@ module.exports={
 	signupGet: (req,res,next)=>{
 		res.render('user/userSignUp',{ title: 'Sign Up' });
 	},
-	signupPost: (req,res,next)=>{
-		req.body.password=Student.hashfun(req.body.password);
-		Student.createStudent(req,function (err) {
+	signupPost: (req, res, next) => {
+		req.body.password = Student.hashfun(req.body.password);
+		req.body.name = (req.body.email).split("@")[0];
+		Student.createStudent(req, function (err) {
 			if (err) throw err;
 			req.session.userName = req.body.name;
 			res.redirect("/profile")
 		});
 	},
-
 	loginPost :(req, res, next)=> {
 		
 		var username = req.body.username;
@@ -71,13 +71,15 @@ module.exports={
 		form.parse(req, function (err, fields, files) {
 
 		var oldpath = files.filetoupload.path;
-      var newpath = 'D:/fci/4th year/Level 4 Term 1/IS345 - Internet Applications/project2/OnlineTest/public/CVS/' +req.session.userName+".pdf";
-	 //gomath path:
+      var newpath = 'F:/Level 4 Term 1/IA Project/OnlineTestV1/public/CVS/' +req.session.userName+".pdf";
+      var absPath = req.session.userName+".pdf";
+	 //gomath path:F:\Level 4 Term 1\IA Project\OnlineTestV1\public\CVS
 	 
 	  fs.removeSync(newpath,null); 
 	  fs.move(oldpath, newpath, function (err) {
 		if (err) throw err;
-		Student.addCV(newpath,req.session.userName,null);
+		Student.addCV(absPath,req.session.userName,null);
+		Applicant.saveApplication()
         res.write('File uploaded and moved!');
         res.end();
       });

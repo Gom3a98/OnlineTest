@@ -10,7 +10,7 @@
         <a class="nav-link" href="#">Jobs</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">{{username}}</a>
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"> hello Mr.{{username}}</a>
     </li>
 </ul>
 <hr>
@@ -51,6 +51,7 @@
             <form method="post" action="fileupload" enctype="multipart/form-data" id="myform">
             <div class="modal-body">
                 <p class="desc"></p>
+                <input value ="" type="text" name="stId "id="stId">
                     <div class="custom-file">
                         <label class="custom-file-label" for="file">Choose your CV</label>
                         <input type="file" class="custom-file-input CV" id="file" name="filetoupload"/><br>
@@ -75,7 +76,7 @@
             var bookId = jQuery(e.relatedTarget).data('book-id');
             var posId = jQuery(e.relatedTarget).data('pos-id');
             jQuery(e.currentTarget).find('.desc').append(bookId);
-            jQuery(e.currentTarget).find('#myId').val(posId);
+            jQuery(e.currentTarget).find('#stId').val(posId);
         });
         var pressed_btn_id ;
         $("a").click(function() {

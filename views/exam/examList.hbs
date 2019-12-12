@@ -1,4 +1,145 @@
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-<h1>
-    hiiii
-</h1>
+<div class="dropdown">
+    <input type="text" class="searchValue">
+    <button onclick="myFunction()" class="dropbtn">Search</button>
+    <div id="myDropdown" class="dropdown-content searching">
+        <a href="#">StudentEmail</a>
+        <a href="#">StudentName</a>
+        <a href="#">ExamTitle</a>
+        <a href="#">ExamDuration</a>
+        <a href="#">ExamQuestion</a>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(() => {
+
+        $('.searchResult').hide();
+        $('.searching a').click(function () {
+
+
+            var url = '/hr/search' + $(this).text()
+            alert(url);
+            $.get(url, { searchQuery: $('.searchValue').val() }, (data) => {
+                if (data.length == 0)
+                    alert('not found');
+                else {
+                    $('.searchResult').trigger('click');
+                    var arr = '<ul class="list-group">';
+                    for (var i = 0; i < data.length; i++) {
+                        $.each(data[i], function (key, value) {
+                            arr+='<li class="list-group-item">'+key + ": " + value+"</li>";
+                        });
+                    }
+                    arr+='</li>'
+                    $('.modal-title').text($(this).text());
+                    $('.modal-body').html(arr);
+                }
+            })
+        });
+    })
+    /* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+    function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+</script>
+
+
+
+
+<style>
+    /* Dropdown Button */
+    .dropbtn {
+        background-color: #3498DB;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+    }
+
+    /* Dropdown button on hover & focus */
+    .dropbtn:hover,
+    .dropbtn:focus {
+        background-color: #2980B9;
+    }
+
+    /* The container <div> - needed to position the dropdown content */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    /* Dropdown Content (Hidden by Default) */
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    /* Links inside the dropdown */
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    /* Change color of dropdown links on hover */
+    .dropdown-content a:hover {
+        background-color: #ddd
+    }
+
+    /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+    .show {
+        display: block;
+    }
+</style>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary searchResult" data-toggle="modal" data-target="#sResult">
+
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="sResult" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalScrollableTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>

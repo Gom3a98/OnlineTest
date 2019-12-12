@@ -9,7 +9,7 @@ module.exports ={
 
     },
     getAllPositions : (callback)=>{
-        let sql = "select * from online_test.student st inner join online_test.applicants app on st.id = app.studentId inner join online_test.position pos on app.positionId = pos.id";
+        let sql = "select * from online_test.student st inner join online_test.applicants app on st.id = app.studentId inner join online_test.position pos on app.positionId = pos.pid";
         con.query(sql , callback)
     }
 };

@@ -20,4 +20,13 @@ module.exports = {
         var query =  "insert into online_test.answer (AnswerBody,correct,qid) values ('"+AnswerBody+"','"+correct+"','"+QuestionBody+"')";
         con.query(query,callback);
     },
+    selectWrongAnswer:function(questionID,callback){
+       
+        var query = "SELECT * FROM online_test.answer where qid ='" + questionID + "'and correct = '0' ORDER By RAND() LIMIT 3";
+        con.query(query,callback);
+    },    
+    selectCorrectAnswer:async function (questionID,callback){
+        var query = "SELECT * FROM online_test.answer where qid ='" + questionID + "'and correct = '1' ORDER By RAND() LIMIT 1";
+        con.query(query,callback)
+    }
 };

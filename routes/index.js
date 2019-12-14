@@ -19,4 +19,5 @@ router.get('/profile',user.showProfile)
 router.post("/fileupload" , user.uploadCV)
 
 router.get('/checkUserName',user.checkUserName)
+router.get('/startExam/:canName/:processID/:examid',user.startExam)
 module.exports = router;

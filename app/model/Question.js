@@ -20,4 +20,8 @@ module.exports = {
         var query = "select * from online_test.question JOIN online_test.answer  ON question.qid = answer.qid where questionBody='"+questionBody+"'" ;
         con.query(query,callback);
     },
+    getQuestionRandom:function (examID,callback){
+        var query = "SELECT * FROM online_test.question where examID ='"+examID+"' ORDER  By RAND() LIMIT 5";
+        con.query(query,callback);
+    }
 };

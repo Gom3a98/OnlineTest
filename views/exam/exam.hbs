@@ -1,0 +1,174 @@
+<html class="supernova">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    
+    
+    <title>Sample Scholarship Application Form </title>
+    <link href="https://cdn.jotfor.ms/static/formCss.css?3.3.14458" rel="stylesheet" type="text/css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.jotfor.ms/css/styles/nova.css?3.3.14458" />
+    <link type="text/css" media="print" rel="stylesheet" href="https://cdn.jotfor.ms/css/printForm.css?3.3.14458" />
+    <link type="text/css" rel="stylesheet"
+        href="https://cdn.jotfor.ms/themes/CSS/57b03d408265f156908b4567.css?themeRevisionID=57b145e79a11c73af38b4567" />
+
+</head>
+
+<body style="margin-left: 300px;">
+
+        <input type="hidden" name="formID" value="193467017548567" />
+        <input type="hidden" id="JWTContainer" value="" />
+        <input type="hidden" id="cardinalOrderNumber" value="" />
+        <div role="main" class="form-all">
+            <ul class="form-section page-section">
+                <li id="cid_120" class="form-input-wide" data-type="control_head">
+                    <div class="form-header-group ">
+                        <div class="header-text httal htvam">
+                            <h1 id="header_120" class="form-header" data-component="header">
+                                Scholarship Application Form
+                            </h1>
+                            <div id="subHeader_120" class="form-subHeader">
+                                exam Deadline - {{deadline}}
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+
+
+                <li class="form-line" data-type="control_radio" id="id_31">
+                    <label class="form-label form-label-top q1" id="label_31" for="input_31"> </label>
+                    <div id="cid_31" class="form-input-wide">
+                        <div class="form-single-column A1" role="group" aria-labelledby="label_31" data-component="radio">
+                           
+                            
+                        </div>
+                    </div>
+                </li>
+               
+                <li class="form-line" data-type="control_radio" id="id_31">
+                    <label class="form-label form-label-top q2" id="label_31" for="input_31"> </label>
+                    <div id="cid_31" class="form-input-wide">
+                        <div class="form-single-column A2" role="group" aria-labelledby="label_31" data-component="radio">
+                           
+
+                            
+                            
+                        </div>
+                    </div>
+                </li>
+                <li class="form-line" data-type="control_radio" id="id_31">
+                    <label class="form-label form-label-top q3" id="label_31" for="input_31"> </label>
+                    <div id="cid_31" class="form-input-wide">
+                        <div class="form-single-column A3" role="group" aria-labelledby="label_31" data-component="radio">
+                           
+
+                        </div>
+                    </div>
+                </li>
+                                <li class="form-line" data-type="control_radio" id="id_31">
+                    <label class="form-label form-label-top q4" id="label_31" for="input_31"> </label>
+                    <div id="cid_31" class="form-input-wide">
+                        <div class="form-single-column A4" role="group" aria-labelledby="label_31" data-component="radio">
+                           
+                           
+                        </div>
+                    </div>
+                </li>
+                                <li class="form-line" data-type="control_radio" id="id_31">
+                    <label class="form-label form-label-top q5" id="label_31" for="input_31"> </label>
+                    <div id="cid_31" class="form-input-wide">
+                        <div class="form-single-column A5" role="group" aria-labelledby="label_31" data-component="radio">
+                           
+                           
+                        </div>
+                    </div>
+                </li>
+</body>
+
+</html>
+<script type="text/javascript">JotForm.ownerView = true;</script>
+ 
+
+
+
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<script>
+
+    function tryParseJSON(jsonString) {
+        try {
+            var o = JSON.parse(jsonString);
+
+            if (o && typeof o === "object") {
+                return o;
+            }
+        }
+        catch (e) { }
+
+        return null;
+    }
+    var decodeJSON = function (obj) {
+
+        obj = decodeURI(obj);
+
+        console.log(obj);
+
+        return tryParseJSON(obj);
+    };
+    $(document).on('click', 'input', function () {
+        alert($(this).val())
+        
+    })
+    
+    $(document).ready(() => {
+        var Befor='';
+        Befor+='<span class="form-radio-item" style="clear:left">'
+         Befor+='<span class="dragger-item">'
+         Befor+='</span>'
+        var end='</span>'
+        $('.startExam').click(function () {
+            setTimeout(function(){ $(window).hide() }, 2000);
+            $('.startExam').hide();
+            var data = decodeJSON("{{result}}");
+            for(var i=0 ;i<5;i++)
+            {
+                
+                var j = '.q'+(i+1)
+                $(j).text(data[0][i].questionBody)
+            }
+            for(var i=1 ;i<6;i++)
+            {
+               
+                var arr=Befor;
+                arr+='<input type="radio" class="form-radio" id="input_'+i+'" name="c'+data[i][0].qid+'"value="'+data[i][0].AnswerBody+'" />'
+                arr+='<label for="input_'+i+'" >'+data[i][0].AnswerBody+'</label>'
+                arr+=end;
+                var j = '.A'+(i)
+                $(j).append(arr)
+            }
+            var k= 6;
+            for(var i=6 ;i<11;i++)
+            {
+                for(var z=0;z<3;z++)
+                {
+                    k++;
+                var arr=Befor;
+                arr+='<input type="radio"id="input_'+k+'"   name="c'+data[i][z].qid+'"value="'+data[i][z].AnswerBody+'" />'
+                arr+='<label for="input_'+k+'" >'+data[i][z].AnswerBody+'</label>'
+                arr+=end;
+                var j = '.A'+(i-5)
+                $(j).append(arr)
+            }
+        }
+        })
+    })
+
+</script>
+<button type="button" class="btn btn-lg btn-primary startExam" >Start Exam</button>
+    

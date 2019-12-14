@@ -112,7 +112,7 @@
                     <td>{{this.user_name}}</td>
                     <td>{{this.title}}</td>
                     <td>
-                        <a href="#my_modal"  id="{{this.id}}--{{this.CV}}--{{this.pid}}" class="btn btn-primary dd " data-toggle="modal" data-book-id="{{this.id}}">Preview</a>
+                        <a href="#my_modal"  id="{{this.user_name}}--{{this.CV}}--{{this.pid}}" class="btn btn-primary dd " data-toggle="modal" data-book-id="{{this.id}}">Preview</a>
                     </td>
                 </tr>
                 {{/results}}
@@ -162,6 +162,9 @@
                 <div class="input-group mb-3">
                     <input type="text" id="exam_list" name="exam_list" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                 </div>
+                <div class="input-group mb-3">
+                    <input type="text" hidden id="exam_listIds" name="exam_listIds" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                </div>
                 <div class="my-1 input-group mb-3">
                     <select class="custom-select" id="select1" name="exams">
                         <option selected>Choose...</option>
@@ -198,10 +201,25 @@
 <script>
     $(document).ready(() => {
         $("#select1").change(function(){
-            var selectedCountry = $(this).children("option:selected").text();
+            var selectedEXam = $(this).children("option:selected").text();
+            var selectedExamId  = $(this).children("option:selected").val();
             var current  = $("#exam_list").val();
-            $("#exam_list").val(current+" - "+selectedCountry);
-           // alert("You have selected the country - " + selectedCountry);
+            var currentIndex =  $("#exam_listIds").val();
+            // alert(currentIndex);
+            if(current != "")
+               {
+                   if (!current.indexOf(selectedEXam)>=0)
+                   {
+                       $("#exam_list").val(current+" | "+selectedEXam);
+                       $("#exam_listIds").val(currentIndex+"|"+selectedExamId);
+                   }
+               }
+            else
+                {
+                    $("#exam_listIds").val(selectedExamId);
+                    $("#exam_list").val(selectedEXam);
+                }
+           // alert("You have selected the EXam - " + selectedEXam);
         });
         $("#approve").click(()=>{
             $("input[name=Ids]").val($("#stId").val())
@@ -240,7 +258,7 @@
         var path = arr[1];
         path = "public/CVS/"+path
         //alert(pressed_btn_id)
-        jQuery(document).find('#stId').val(pressed_btn_id+"--"+arr[2]);
+        jQuery(document).find('#stId').val(pressed_btn_id+"|"+arr[2]);
         jQuery(document).find('#CV').attr("src", path);
     });
         // jQuery('#my_modal').on('show.bs.modal', function(e) {

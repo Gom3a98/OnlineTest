@@ -1,6 +1,5 @@
 var con = require('../../config/connection');
 
-
 module.exports ={
     save : (exam_listIds , processId , callback)=>{
         var sql  = "insert into online_test.exam_status (examId , process_id ,preference ) values";
@@ -15,6 +14,12 @@ module.exports ={
     },
     getExamStatusByProcessId : function (processId , callback) {
         con.query("select * from exam_status where process_id = ?" , [processId] , callback);
+    },
+    UpdateScore:function(examID,ProcessID,score,callback){
+        var query = "UPDATE online_test.exam_status SET score= '" + score +"' , isFinished='1' WHERE process_id= '"+ProcessID+"' and examId= '"+examID+"'";
+        console.log(query);
+        con.query(query,callback);
     }
+
 };
 

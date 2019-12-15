@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 11, 2019 at 08:07 PM
+-- Generation Time: Dec 15, 2019 at 02:27 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.3
 
@@ -40,34 +40,34 @@ CREATE TABLE `answer` (
 --
 
 INSERT INTO `answer` (`aid`, `AnswerBody`, `correct`, `qid`) VALUES
-(1, 'log n', '1', 6),
-(2, 'n^2', '0', 6),
-(3, 'n', '0', 6),
-(4, '(log n)^3', '0', 3),
-(5, '(log n^2)', '0', 3),
-(6, 'n^3', '0', 11),
-(7, 'n', '0', 11),
-(10, 'nlog n', '1', 3),
-(11, 'n log n', '1', 11),
-(12, '4', '1', 12),
-(13, '5', '0', 12),
-(14, '6', '0', 12),
-(15, '9', '0', 12),
-(16, '2*2', '1', 12),
-(17, '12', '0', 0),
-(18, 'asd', '0', 12),
-(19, 'asd', '0', 12),
-(20, 'asdasd', 'on', 5),
-(21, 'asdasd', 'on', 5),
-(22, 'amr', 'on', 5),
-(23, 'amr', 'on', 5),
-(24, 'fea', 'on', 34),
-(25, '', 'on', 35),
-(26, '', 'on', 35),
-(27, '', 'on', 35),
-(28, '', 'on', 35),
-(29, '', 'on', 35),
-(30, '', 'on', 35),
+(1, 'correct-1-1', '1', 1),
+(2, 'inCorrect-1-2', '0', 1),
+(3, 'inCorrect-1-3', '0', 1),
+(4, 'inCorrect-1-4', '0', 1),
+(5, 'inCorrect-2-1', '0', 2),
+(6, 'inCorrect-2-2', '0', 2),
+(7, 'inCorrect-2-3', '0', 2),
+(10, 'correct-2-4', '1', 2),
+(11, 'correct-3-1', '1', 3),
+(12, 'inCorrect-3-2', '0', 3),
+(13, 'inCorrect-3-3', '0', 3),
+(14, 'inCorrect-3-4', '0', 3),
+(15, 'inCorrect-4-1', '0', 4),
+(16, 'correct-4-2', '1', 4),
+(17, 'inCorrect-4-3', '0', 4),
+(18, 'inCorrect-4-4', '0', 4),
+(19, 'inCorrect-5-1', '0', 5),
+(20, 'inCorrect-5-2', '0', 5),
+(21, 'inCorrect-5-3', '0', 5),
+(22, 'correct-5-4', '1', 5),
+(23, 'amr', '0', 17),
+(24, 'fea', '1', 17),
+(25, '', '0', 15),
+(26, '', '0', 16),
+(27, '', '1', 15),
+(28, '', '0', 15),
+(29, '', '1', 15),
+(30, '', 'on', 15),
 (31, '', 'on', 35),
 (32, '', 'on', 0),
 (33, '', 'on', 0),
@@ -88,6 +88,14 @@ CREATE TABLE `applicants` (
   `positionId` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `applicants`
+--
+
+INSERT INTO `applicants` (`applicationId`, `studentId`, `positionId`) VALUES
+(1, '26', '1'),
+(5, '26', '1');
+
 -- --------------------------------------------------------
 
 --
@@ -105,7 +113,7 @@ CREATE TABLE `exams` (
 --
 
 INSERT INTO `exams` (`examID`, `examTitle`, `Duration`) VALUES
-(1, 'algorithm', 5),
+(1, 'algorithm', 2000),
 (2, 'DS', 5),
 (3, 'IA', 5),
 (4, 'information System', 2),
@@ -116,11 +124,33 @@ INSERT INTO `exams` (`examID`, `examTitle`, `Duration`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `exams_process`
+--
+
+CREATE TABLE `exams_process` (
+  `epid` int(11) NOT NULL,
+  `user_name` varchar(45) DEFAULT NULL,
+  `Exams` text,
+  `deadline` date DEFAULT NULL,
+  `scores` text,
+  `positionId` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `exams_process`
+--
+
+INSERT INTO `exams_process` (`epid`, `user_name`, `Exams`, `deadline`, `scores`, `positionId`) VALUES
+(1, 'admin', '1-2-3-4-5', '2012-03-13', '50', 50);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `position`
 --
 
 CREATE TABLE `position` (
-  `id` int(11) NOT NULL,
+  `pid` int(11) NOT NULL,
   `title` varchar(45) DEFAULT NULL,
   `description` varchar(45) DEFAULT NULL,
   `availability` int(11) DEFAULT NULL
@@ -130,7 +160,7 @@ CREATE TABLE `position` (
 -- Dumping data for table `position`
 --
 
-INSERT INTO `position` (`id`, `title`, `description`, `availability`) VALUES
+INSERT INTO `position` (`pid`, `title`, `description`, `availability`) VALUES
 (1, 'sdfsdf', 'asdasdasd', 1),
 (2, 'ASDQWDQ', 'ASDL,ASDASD', 1);
 
@@ -151,12 +181,12 @@ CREATE TABLE `question` (
 --
 
 INSERT INTO `question` (`qid`, `questionBody`, `examID`) VALUES
-(1, 'how are you', 5),
-(3, 'Complexty of Quick sort?', 1),
-(6, 'Complexty of Binary Search?', 1),
-(11, 'Complexty of Merge Sort?', 1),
-(12, '2*2', 2),
-(14, 'asdasd', 9),
+(1, 'Question1', 1),
+(2, 'Question2', 1),
+(3, 'Question3', 1),
+(4, 'Question4', 1),
+(5, 'Question5', 1),
+(6, 'asdasd', 2),
 (15, 'sdlsdlsd', 5),
 (16, 'asd', 5),
 (17, 'asld,asd', 5),
@@ -201,7 +231,9 @@ INSERT INTO `student` (`id`, `password`, `email`, `user_name`, `CV`, `phone_numb
 (24, '$2a$05$oX84RlRbNy32S1o14ssaxumGaCo40LTgy.mNSF', 'amr@amr', 'amr', NULL, '123'),
 (25, '$2a$10$gTwRaNquJymHULkeNdCauOUDtxCZ/kNe7ASerN/e0HdJPd/r7AGHC', 'amr2@amr', 'amr2', NULL, '123'),
 (26, '$2a$10$yaz/lM0SB7bH9b.6wNbHxekTBSGJmVOZhnNK6ne.Gf.UVBb6KIOS2', 'amr@amr', 'amr', NULL, '123'),
-(27, '$2a$10$7yAYGThimR6UYd0kahrQF.dB7VSYuHwFk5WeqEzf8WBMHS8u/TDXG', 'admin@admin', 'admin', 'D:/fci/4th year/Level 4 Term 1/IS345 - Intern', '123');
+(27, '$2a$10$7yAYGThimR6UYd0kahrQF.dB7VSYuHwFk5WeqEzf8WBMHS8u/TDXG', 'admin@admin', 'admin', 'D:/fci/4th year/Level 4 Term 1/IS345 - Internet Applications/project2/OnlineTest/public/CVS/admin.pdf', '123'),
+(28, '$2a$10$SgviNUYDEncGF1lX6IcC4em7Dxqljz33ouk7ZTPCTgwcLwvBkO20W', 'fahmy@fahmy', 'fahmy', NULL, '123'),
+(29, '$2a$10$fCPDozUEJ8pycRxcqSLLaeAMCsp1QDZ74ps.gim4rX5KeEJGyjd/q', 'elkingamr46@yahoo.com', 'elkingamr46', NULL, '123');
 
 -- --------------------------------------------------------
 
@@ -474,10 +506,16 @@ ALTER TABLE `exams`
   ADD UNIQUE KEY `examTitle` (`examTitle`);
 
 --
+-- Indexes for table `exams_process`
+--
+ALTER TABLE `exams_process`
+  ADD PRIMARY KEY (`epid`);
+
+--
 -- Indexes for table `position`
 --
 ALTER TABLE `position`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`pid`);
 
 --
 -- Indexes for table `question`
@@ -507,7 +545,7 @@ ALTER TABLE `answer`
 -- AUTO_INCREMENT for table `applicants`
 --
 ALTER TABLE `applicants`
-  MODIFY `applicationId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `applicationId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `exams`
@@ -516,10 +554,16 @@ ALTER TABLE `exams`
   MODIFY `examID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
+-- AUTO_INCREMENT for table `exams_process`
+--
+ALTER TABLE `exams_process`
+  MODIFY `epid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `position`
 --
 ALTER TABLE `position`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `pid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `question`
@@ -531,7 +575,7 @@ ALTER TABLE `question`
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -1,5 +1,5 @@
 var nodemailer = require('nodemailer');
-var SendMail = (To , Subject , Body)=>{
+var SendMail = (To , Subject , Body , res)=>{
 
     var transporter = nodemailer.createTransport({
         service: 'yahoo',
@@ -12,17 +12,17 @@ var SendMail = (To , Subject , Body)=>{
     var mailOptions = {
         from: 'hhr49@yahoo.com',
         to: To,
-        subject: Subject ,
+        subject: Subject,
         text: Body
     };
 
     transporter.sendMail(mailOptions, function(error, info){
         if (error) {
             console.log(error);
-            res.send({message:"Error Ocurred : "+error})
+
         } else {
             console.log('Email sent: ' + info.response);
-            res.send(json({message : "Sent"}));
+            res.redirect("/hr/ListApplicants");
 
         }
     });

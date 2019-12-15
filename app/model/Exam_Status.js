@@ -12,6 +12,9 @@ module.exports ={
                 sql+= "("+exam_listIds[x]+","+ processId+","+(x+1)+")";
         }
         con.query(sql ,callback)
+    },
+    getExamStatusByProcessId : function (processId , callback) {
+        con.query("select * from exam_status where process_id = ?" , [processId] , callback);
     }
 };
 

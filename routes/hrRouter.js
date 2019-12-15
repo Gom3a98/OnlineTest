@@ -5,6 +5,8 @@ var positionController = require("../app/controllers/HR/PositionController");
 var ExamController = require("../app/controllers/HR/ExamController");
 var QuestionController = require("../app/controllers/HR/QuestionController");
 var SearchController = require("../app/controllers/HR/SearchController");
+
+var ExamProcessController = require("../app/controllers/GeneralControllers/ExamProcessController");
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
@@ -38,6 +40,7 @@ router.get('/searchExamTitle',SearchController.searchExamTitle);
 router.get('/searchExamDuration',SearchController.serachExamDuration);
 router.get('/searchExamQuestion',SearchController.searchExamQuestion);
 
+router.post('/approval' ,ExamProcessController.approval)
 router.get('/Test',(req,res,next)=>{
   res.render('exam/examList')
 })

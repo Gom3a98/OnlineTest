@@ -1,0 +1,23 @@
+<div class="container-fluid">
+    <h1 class="mt-4">List of All applicants</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Exam Title</th>
+            <th scope="col">Link</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{# Process}}
+            <tr>
+                <td>{{this.examId}}</td>
+                <td>
+                    <a href="/startExam/{{this.user_name}}/{{this.process_id}}/{{this.examId}}"  id="" class="btn btn-primary dd " data-toggle="modal">Open</a>
+                </td>
+            </tr>
+        {{/Process}}
+        </tbody>
+    </table>
+
+</div>
+

@@ -70,25 +70,23 @@ module.exports = {
 		var form = new formidable.IncomingForm();
 		form.parse(req, function (err, fields, files) {
 
-			var oldpath = files.filetoupload.path;
-			var newpath = 'F:/Level 4 Term 1/IA Project/OnlineTestV1/public/CVS/' + req.session.userName + ".pdf";
-			var absPath = req.session.userName + ".pdf";
-			//gomath path:F:\Level 4 Term 1\IA Project\OnlineTestV1\public\CVS
-
-			fs.removeSync(newpath, null);
-			fs.move(oldpath, newpath, function (err) {
-				if (err) throw err;
-				Student.addCV(absPath, req.session.userName, null);
-				Applicant.saveApplication()
-				res.write('File uploaded and moved!');
-				res.end();
-			});
-			
-		})
-	}
-	},
-	checkUserName: function (req, res, next) {
-		var userName = req.query.userName;
+		var oldpath = files.filetoupload.path;
+      var newpath = 'F:/Level 4 Term 1/IA Project/OnlineTestV1/public/CVS/' +req.session.userName+".pdf";
+      var absPath = req.session.userName+".pdf";
+	 //gomath path:F:\Level 4 Term 1\IA Project\OnlineTestV1\public\CVS
+	 
+	  fs.removeSync(newpath,null); 
+	  fs.move(oldpath, newpath, function (err) {
+		if (err) throw err;
+		Student.addCV(absPath,req.session.userName,null);
+		// Applicant.saveApplication()
+        res.write('File uploaded and moved!');
+        res.end();
+      });
+	})
+},
+	checkUserName:function(req,res,next){
+		var userName = req.query.userName ;
 		console.log(userName[0])
 		Student.searchCandUserName(userName[0], (err, result) => {
 			if (err) throw err;

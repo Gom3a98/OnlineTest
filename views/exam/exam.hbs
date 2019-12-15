@@ -2,10 +2,10 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
 
-    
-    
+
+
+
     <title>Sample Scholarship Application Form </title>
     <link href="https://cdn.jotfor.ms/static/formCss.css?3.3.14458" rel="stylesheet" type="text/css" />
     <link type="text/css" rel="stylesheet" href="https://cdn.jotfor.ms/css/styles/nova.css?3.3.14458" />
@@ -17,79 +17,54 @@
 
 <body style="margin-left: 300px;">
 
-        <input type="hidden" name="formID" value="193467017548567" />
-        <input type="hidden" id="JWTContainer" value="" />
-        <input type="hidden" id="cardinalOrderNumber" value="" />
-        <div role="main" class="form-all">
-            <ul class="form-section page-section">
-                <li id="cid_120" class="form-input-wide" data-type="control_head">
-                    <div class="form-header-group ">
-                        <div class="header-text httal htvam">
-                            <h1 id="header_120" class="form-header" data-component="header">
-                                Scholarship Application Form
-                            </h1>
-                            <div id="subHeader_120" class="form-subHeader">
-                                exam Deadline - {{deadline}}
-                            </div>
+    <input type="hidden" name="formID" value="193467017548567" />
+    <input type="hidden" id="JWTContainer" value="" />
+    <input type="hidden" id="cardinalOrderNumber" value="" />
+    <div role="main" class="form-all">
+        
+        <div class="progress" id="submit_progress" style="width:100%">
+            <div class="progress-bar bg-danger " role="progressbar" aria-valuenow="0" aria-valuemin="0"
+                aria-valuemax="100" id="load" style="width:0%">
+                0%
+            </div>
+        </div>
+
+
+        <ul class="form-section page-section">
+            <li id="cid_120" class="form-input-wide" data-type="control_head">
+                <div class="form-header-group ">
+                    <div class="header-text httal htvam">
+                        <h1 id="header_120" class="form-header" data-component="header">
+                            {{examTitle}}
+                        </h1>
+                        <div id="subHeader_120" class="form-subHeader">
+                            Task Deadline - {{deadline}}
+                        </div>
+                        <div id="subHeader_120" class="form-subHeader">
+                            exam Deadline -{{duration}}
                         </div>
                     </div>
-                </li>
+                </div>
+            </li>
 
 
 
-                <li class="form-line" data-type="control_radio" id="id_31">
-                    <label class="form-label form-label-top q1" id="label_31" for="input_31"> </label>
-                    <div id="cid_31" class="form-input-wide">
-                        <div class="form-single-column A1" role="group" aria-labelledby="label_31" data-component="radio">
-                           
-                            
-                        </div>
-                    </div>
-                </li>
-               
-                <li class="form-line" data-type="control_radio" id="id_31">
-                    <label class="form-label form-label-top q2" id="label_31" for="input_31"> </label>
-                    <div id="cid_31" class="form-input-wide">
-                        <div class="form-single-column A2" role="group" aria-labelledby="label_31" data-component="radio">
-                           
+            <li class="form-line" data-type="control_radio" id="id_31">
+                <label class="form-label form-label-top q1" id="label_31" for="input_31"> </label>
+                <div id="cid_31" class="form-input-wide">
+                    <div class="form-single-column A1" role="group" aria-labelledby="label_31" data-component="radio">
 
-                            
-                            
-                        </div>
-                    </div>
-                </li>
-                <li class="form-line" data-type="control_radio" id="id_31">
-                    <label class="form-label form-label-top q3" id="label_31" for="input_31"> </label>
-                    <div id="cid_31" class="form-input-wide">
-                        <div class="form-single-column A3" role="group" aria-labelledby="label_31" data-component="radio">
-                           
 
-                        </div>
                     </div>
-                </li>
-                                <li class="form-line" data-type="control_radio" id="id_31">
-                    <label class="form-label form-label-top q4" id="label_31" for="input_31"> </label>
-                    <div id="cid_31" class="form-input-wide">
-                        <div class="form-single-column A4" role="group" aria-labelledby="label_31" data-component="radio">
-                           
-                           
-                        </div>
-                    </div>
-                </li>
-                                <li class="form-line" data-type="control_radio" id="id_31">
-                    <label class="form-label form-label-top q5" id="label_31" for="input_31"> </label>
-                    <div id="cid_31" class="form-input-wide">
-                        <div class="form-single-column A5" role="group" aria-labelledby="label_31" data-component="radio">
-                           
-                           
-                        </div>
-                    </div>
-                </li>
+                </div>
+            </li>
+
+
 </body>
 
 </html>
 <script type="text/javascript">JotForm.ownerView = true;</script>
- 
+
 
 
 
@@ -100,7 +75,18 @@
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 <script>
+    function shuffle(array) {
+        var currentIndex = array.length, temporaryValue, randomIndex;
+        while (0 !== currentIndex) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
 
+        return array;
+    }
     function tryParseJSON(jsonString) {
         try {
             var o = JSON.parse(jsonString);
@@ -117,58 +103,90 @@
 
         obj = decodeURI(obj);
 
-        console.log(obj);
+
 
         return tryParseJSON(obj);
     };
+
+    var data = decodeJSON("{{result}}");
+    var duration = "{{duration}}"
+    
     $(document).on('click', 'input', function () {
         alert($(this).val())
-        
+        $('.startExam').click()
+        alert($('.q1').html())
     })
-    
+
     $(document).ready(() => {
-        var Befor='';
-        Befor+='<span class="form-radio-item" style="clear:left">'
-         Befor+='<span class="dragger-item">'
-         Befor+='</span>'
-        var end='</span>'
+        $('#pay').hide()
+        $('#pay').click(function () {
+
+            var timerId, percent;
+
+            // reset progress bar
+            percent = 0;
+            $('#pay').attr('disabled', true);
+            $('#load').css('width', '0px');
+            $('#load').addClass('progress-bar-striped active');
+
+
+            timerId = setInterval(function () {
+
+                // increment progress bar
+                percent += 5;
+                $('#load').css('width', percent + '%');
+                $('#load').html(percent + '%');
+
+
+                // complete
+                if (percent >= 100) {
+                    clearInterval(timerId);
+                    $('#pay').attr('disabled', false);
+                    $('#load').removeClass('progress-bar-striped active');
+                    $('#load').html('payment complete');
+
+                    // do more ...
+
+                }
+
+            }, duration);
+
+
+        });
+        var Befor = '';
+        Befor += '<span class="form-radio-item" style="clear:left">'
+        Befor += '<span class="dragger-item">'
+        Befor += '</span>'
+        var end = '</span>'
         $('.startExam').click(function () {
-            setTimeout(function(){ $(window).hide() }, 2000);
-            $('.startExam').hide();
-            var data = decodeJSON("{{result}}");
-            for(var i=0 ;i<5;i++)
-            {
-                
-                var j = '.q'+(i+1)
-                $(j).text(data[0][i].questionBody)
+            $('#pay').click()
+            $('.startExam').text('skip');
+            $('.q1').html(data[0][0].questionBody)
+            console.log(data)
+            console.log(data[0].splice(0, 1));
+            var arr = Befor;
+            arr += '<input type="radio" class="form-radio" id="input_" name="c' + data[1][0][0].qid + '"value="' + data[1][0][0].AnswerBody + '" />'
+            arr += '<label for="input_" >' + data[1][0][0].AnswerBody + '</label>'
+            arr += end;
+
+            console.log(data[1].splice(0, 1));
+            var Answer = [];
+            Answer.push(arr);
+            for (var z = 0; z < 3; z++) {
+                var arr2 = Befor;
+                arr2 += '<input type="radio"id="input_' + z + '"   name="c' + data[2][0][z].qid + '"value="' + data[2][0][z].AnswerBody + '" />'
+                arr2 += '<label for="input_' + z + '" >' + data[2][0][z].AnswerBody + '</label>'
+                arr2 += end;
+                Answer.push(arr2);
             }
-            for(var i=1 ;i<6;i++)
-            {
-               
-                var arr=Befor;
-                arr+='<input type="radio" class="form-radio" id="input_'+i+'" name="c'+data[i][0].qid+'"value="'+data[i][0].AnswerBody+'" />'
-                arr+='<label for="input_'+i+'" >'+data[i][0].AnswerBody+'</label>'
-                arr+=end;
-                var j = '.A'+(i)
-                $(j).append(arr)
-            }
-            var k= 6;
-            for(var i=6 ;i<11;i++)
-            {
-                for(var z=0;z<3;z++)
-                {
-                    k++;
-                var arr=Befor;
-                arr+='<input type="radio"id="input_'+k+'"   name="c'+data[i][z].qid+'"value="'+data[i][z].AnswerBody+'" />'
-                arr+='<label for="input_'+k+'" >'+data[i][z].AnswerBody+'</label>'
-                arr+=end;
-                var j = '.A'+(i-5)
-                $(j).append(arr)
-            }
-        }
+            console.log(data[2].splice(0, 1));
+            Answer = shuffle(Answer);
+            $('.A1').html(Answer)
         })
     })
 
 </script>
-<button type="button" class="btn btn-lg btn-primary startExam" >Start Exam</button>
-    
+<button type="button" class="btn btn-lg btn-primary startExam">Start Exam</button>
+<button type="button" id="pay" class="btn btn-primary" autocomplete="off" style="width:8em">
+    Pay
+</button>

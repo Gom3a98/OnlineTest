@@ -20,4 +20,7 @@ router.post("/fileupload" , user.uploadCV)
 
 router.get('/checkUserName',user.checkUserName)
 router.get('/startExam/:canName/:processID/:examid',user.startExam)
+router.get('/test',(req,res,next)=>{
+  res.render('exam/examList')
+})
 module.exports = router;

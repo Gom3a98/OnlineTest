@@ -108,13 +108,19 @@ module.exports = {
 		var CondUserName = arr[2];
 		var ProcessID = arr[3];
 		var examID = arr[4];
-		var deadline ;
+		var deadline ,duration,examTitle;
 		examProcess.getExams(CondUserName, ProcessID, (err, result) => {
 			var arr = [];
 			console.log(result)
 			deadline=result[0].deadline;
-			Async.waterfall([
-				function A(callback) {
+			Async.waterfall([function a(callback) {
+				exam.getExam(examID, (err, result) => {
+					console.log(result)
+					duration=result[0].Duration;
+					examTitle=result[0].examTitle;
+					callback(null, result)
+				})
+			},function A(amr,callback) {
 					question.getQuestionRandom(examID, (err, result) => {
 						arr.push(result);
 						callback(null, result)
@@ -124,8 +130,8 @@ module.exports = {
 					var arr2=[]
 					QUE.forEach((element, index) => {
 						answer.selectCorrectAnswer(element.qid, (err, result) => {
-							arr.push(result)
-							if (index == QUE.length - 1) {callback(null, QUE);}
+							arr2.push(result)
+							if (index == QUE.length - 1) {arr.push(arr2);callback(null, QUE);}
 						})
 					})
 				}, function C(QUE, callback) {
@@ -134,17 +140,17 @@ module.exports = {
 					//console.log(QUE)
 					QUE.forEach((element, index) => {
 						answer.selectWrongAnswer(element.qid, (err, result) => {
-							arr.push(result)
+							arr3.push(result)
 							//console.log(arr3)
-							if (index == QUE.length - 1) {callback(null, arr);}
+							if (index == QUE.length - 1) {arr.push(arr3);callback(null, arr);}
 						})
 					})
 				}
 			], function (err, result) {
 				//console.log(arr)
-				console.log(deadline)
+				console.log(arr)
 				console.log("///////////////////")
-				res.render('exam/exam', { "result": jsonUtils.encodeJSON(arr) ,"deadline":deadline})
+				res.render('exam/exam', { "result": jsonUtils.encodeJSON(arr) ,"deadline":deadline,'duration':duration,'examTitle':examTitle})
 				//res.send(result);
 			})
 

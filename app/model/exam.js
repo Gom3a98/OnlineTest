@@ -30,4 +30,8 @@ module.exports={
         var query = "select * from online_test.exams where Duration='"+examDuration+"'" ;
         con.query(query,callback);
     },
+    getExam:function(examID,callback){
+        var query = "select * from online_test.exams where examID='"+examID+"'" ;
+        con.query(query,callback);
+    }
 }

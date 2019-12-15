@@ -3,15 +3,8 @@ var Student = require("../../Model/Student");
 var Position = require("../../model/Position");
 var Applicant = require("../../model/Applicants")
 var formidable = require('formidable');
-var examProcess = require('../../model/exam_process');
-var question = require('../../model/Question');
-var answer = require('../../model/Answer');
-var exam = require('../../model/exam')
-const fs = require('fs-extra');
-//new
-var Async = require('async');
-var jsonUtils = require("../../../config/json_utils");
 
+const fs = require('fs-extra');
 
 var Authentication = async (req, res) => {
 
@@ -72,7 +65,8 @@ module.exports = {
 
 	},
 
-	uploadCV: function (req, res, next) {
+	uploadCV:async function (req, res, next) {
+		if (await Authentication(req, res)){
 		var form = new formidable.IncomingForm();
 		form.parse(req, function (err, fields, files) {
 
@@ -89,7 +83,9 @@ module.exports = {
 				res.write('File uploaded and moved!');
 				res.end();
 			});
+			
 		})
+	}
 	},
 	checkUserName: function (req, res, next) {
 		var userName = req.query.userName;
@@ -103,59 +99,7 @@ module.exports = {
 				res.send('0');
 		})
 	},
-	startExam: function (req, res, next) {
-		var arr = req.url.split('/');
-		var CondUserName = arr[2];
-		var ProcessID = arr[3];
-		var examID = arr[4];
-		var deadline ,duration,examTitle;
-		examProcess.getExams(CondUserName, ProcessID, (err, result) => {
-			var arr = [];
-			console.log(result)
-			deadline=result[0].deadline;
-			Async.waterfall([function a(callback) {
-				exam.getExam(examID, (err, result) => {
-					console.log(result)
-					duration=result[0].Duration;
-					examTitle=result[0].examTitle;
-					callback(null, result)
-				})
-			},function A(amr,callback) {
-					question.getQuestionRandom(examID, (err, result) => {
-						arr.push(result);
-						callback(null, result)
-					})
-				},
-				function B(QUE, callback) {
-					var arr2=[]
-					QUE.forEach((element, index) => {
-						answer.selectCorrectAnswer(element.qid, (err, result) => {
-							arr2.push(result)
-							if (index == QUE.length - 1) {arr.push(arr2);callback(null, QUE);}
-						})
-					})
-				}, function C(QUE, callback) {
-					var arr3 = []
-					//console.log('QUE------------')
-					//console.log(QUE)
-					QUE.forEach((element, index) => {
-						answer.selectWrongAnswer(element.qid, (err, result) => {
-							arr3.push(result)
-							//console.log(arr3)
-							if (index == QUE.length - 1) {arr.push(arr3);callback(null, arr);}
-						})
-					})
-				}
-			], function (err, result) {
-				//console.log(arr)
-				console.log(arr)
-				console.log("///////////////////")
-				res.render('exam/exam', { "result": jsonUtils.encodeJSON(arr) ,"deadline":deadline,'duration':duration,'examTitle':examTitle})
-				//res.send(result);
-			})
-
-		})
-	},
+	
 
 };
 

@@ -1,3 +1,4 @@
+<div id="am">
 <html class="supernova">
 
 <head>
@@ -15,7 +16,7 @@
 
 </head>
 
-<body style="margin-left: 300px;">
+<body  style="margin-left: 300px;">
 
     <input type="hidden" name="formID" value="193467017548567" />
     <input type="hidden" id="JWTContainer" value="" />
@@ -61,7 +62,6 @@
 
 
 </body>
-
 </html>
 <script type="text/javascript">JotForm.ownerView = true;</script>
 
@@ -110,11 +110,20 @@
 
     var data = decodeJSON("{{result}}");
     var duration = "{{duration}}"
-    
-    $(document).on('click', 'input', function () {
-        alert($(this).val())
+    var score=0;
+    $(document).on('click', 'q1 input', function () {
+        if($(this).attr('id')=='input_')
+            {
+                alert('correct');
+                score+=1;
+            }
+         else
+            alert('incorrect')
+       $.get('/SaveAnswer',{'questioBody':$('.q1').html(),'answerBody':$(this).val(),'correct':($(this).attr('id')=='input_')? '1':'0','examTitle':'{{examTitle}}','CondUserName':'{{CondUserName}}'},null)
         $('.startExam').click()
-        alert($('.q1').html())
+        
+       
+
     })
 
     $(document).ready(() => {
@@ -133,7 +142,7 @@
             timerId = setInterval(function () {
 
                 // increment progress bar
-                percent += 5;
+                percent += 1;
                 $('#load').css('width', percent + '%');
                 $('#load').html(percent + '%');
 
@@ -144,12 +153,11 @@
                     $('#pay').attr('disabled', false);
                     $('#load').removeClass('progress-bar-striped active');
                     $('#load').html('payment complete');
-
-                    // do more ...
-
+                     var url = '/profile';
+                    var myWindow = window.open(url, "_self", "width=1200, height=600,scrollbars=yes,status=yes,location = yes");
                 }
 
-            }, duration);
+            }, duration*1000);
 
 
         });
@@ -159,7 +167,14 @@
         Befor += '</span>'
         var end = '</span>'
         $('.startExam').click(function () {
-            $('#pay').click()
+            if(data[0].length==5)
+                $('#pay').click()
+            if(data[0].length==0)
+            {
+                $.get('/SaveScore',{'score':score,'ProcessID':'{{ProcessID}}','examID':'{{examID}}'},null)
+                alert("done")
+               
+            }
             $('.startExam').text('skip');
             $('.q1').html(data[0][0].questionBody)
             console.log(data)
@@ -190,3 +205,4 @@
 <button type="button" id="pay" class="btn btn-primary" autocomplete="off" style="width:8em">
     Pay
 </button>
+</div>

@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+var examProcess=require('../app/controllers/user/examProcessController')
 var user = require("../app/controllers/user/UserController")
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -19,8 +19,12 @@ router.get('/profile',user.showProfile)
 router.post("/fileupload" , user.uploadCV)
 
 router.get('/checkUserName',user.checkUserName)
-router.get('/startExam/:canName/:processID/:examid',user.startExam)
+router.get('/startExam/:canName/:processID/:examid',examProcess.startExam)
+router.get('/SaveAnswer',examProcess.SaveAnswer)
+router.get('/SaveScore',examProcess.SaveScore)
 router.get('/test',(req,res,next)=>{
-  res.render('exam/examList')
+  console.log("hiii")
+  res.redirect('/profile')
+  //res.render('user')
 })
 module.exports = router;

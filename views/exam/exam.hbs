@@ -111,7 +111,7 @@
     var data = decodeJSON("{{result}}");
     var duration = "{{duration}}"
     var score=0;
-    $(document).on('click', 'q1 input', function () {
+    $(document).on('click', 'input', function () {
         if($(this).attr('id')=='input_')
             {
                 alert('correct');
@@ -172,8 +172,8 @@
             if(data[0].length==0)
             {
                 $.get('/SaveScore',{'score':score,'ProcessID':'{{ProcessID}}','examID':'{{examID}}'},null)
-                alert("done")
-               
+                var url = '/profile';
+                var myWindow = window.open(url, "_self", "width=1200, height=600,scrollbars=yes,status=yes,location = yes");
             }
             $('.startExam').text('skip');
             $('.q1').html(data[0][0].questionBody)

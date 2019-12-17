@@ -13,11 +13,13 @@ router.get('/', function(req, res, next) {
 });
 router.get('/createPositionForm' , positionController.create);
 router.post('/store' , positionController.store);
-
 router.get('/hrDashboard' , HR.ViewDashBoard);
+
+
 
 router.get('/hrDashboard/listExams',ExamController.listExams);
 router.post('/hrDashboard/examDetails',ExamController.examDetails);
+
 router.post('/hrDashboard/insertExam',ExamController.CreateExam);
 router.post('/hrDashboard/deleteExam',ExamController.deleteExam);
 router.post('/hrDashboard/updateExam',ExamController.updateExam);

@@ -1,0 +1,195 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Dashboard</title>
+
+</head>
+
+<style>
+    body {
+        overflow-x: hidden;
+    }
+
+    #sidebar-wrapper {
+        min-height: 100vh;
+        margin-left: -15rem;
+        -webkit-transition: margin .25s ease-out;
+        -moz-transition: margin .25s ease-out;
+        -o-transition: margin .25s ease-out;
+        transition: margin .25s ease-out;
+    }
+
+    #sidebar-wrapper .sidebar-heading {
+        padding: 0.875rem 1.25rem;
+        font-size: 1.2rem;
+    }
+
+    #sidebar-wrapper .list-group {
+        width: 15rem;
+    }
+
+    #page-content-wrapper {
+        min-width: 100vw;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        margin-left: 0;
+    }
+
+    @media (min-width: 768px) {
+        #sidebar-wrapper {
+            margin-left: 0;
+        }
+
+        #page-content-wrapper {
+            min-width: 0;
+            width: 100%;
+        }
+
+        #wrapper.toggled #sidebar-wrapper {
+            margin-left: -15rem;
+        }
+    }
+</style>
+
+
+<body>
+
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading">HR Dashboard</div>
+        <div class="list-group list-group-flush">
+            <a href="/hr/ListApplicants" id="ListApp" class="list-group-item list-group-item-action bg-light">List Applicants</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Candidates Progress</a>
+            <a href="/hr/hrDashboard/listExams" class="list-group-item list-group-item-action bg-light mangeExam">Manage Exams</a>
+            <a href="/hr/createPositionForm" class="list-group-item list-group-item-action bg-light">Manage Positions</a>
+        </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+            <button class="btn btn-primary" id="menu-toggle">Menu</button>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Log out</a>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+        <div class="container-fluid">
+            <h1 class="mt-4">Exam Manager</h1>
+            <a href="#my_modal" id="" class="btn btn-success float-md-right" data-toggle="modal">+</a>
+
+            <table class='table table-striped'>
+                <thead>
+                    <tr>
+                        <th scope='col'>ID</th>
+                        <th scope='col'>Title</th>
+                        <th scope='col'>Duration</th>
+                        <th scope='col'>View</th>
+                        <th scope='col'>Edit</th>
+                        <th scope='col'>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {{# results}}
+                    <tr>
+                        <td>{{this.examID}}</td>
+                        <td>{{this.examTitle}}</td>
+                        <td>{{this.Duration}}</td>
+
+                        <td>
+                            <a href="#my_modal" id="" class="btn btn-success exams_details" data-toggle="modal">View</a>
+                        </td>
+                        <td>
+                            <a href="#my_modal" id="" class="btn btn-primary" data-toggle="modal">Edit</a>
+                        </td>
+                        <td>
+                            <a href="#my_modal" id="" class="btn btn-danger" data-toggle="modal">X</a>
+                        </td>
+                    </tr>
+                {{/results}}
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+    <div class="moda"></div>
+    <!-- /#page-content-wrapper -->
+    <div class="modal fade" id="my_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="refuseBtn" class="btn btn-danger" data-dismiss="modal">Refuse</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal"
+                            data-toggle="modal" id="approve" data-target="#my_modal2">Accept
+                    </button>
+                    <!--                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+
+<script>
+/*
+    $(document).on('click', '.exams_details', function () {
+        var arr = '<div class="modal fade " id="editexam" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+        var y = $(this).val();
+        arr += modaHead;
+        arr += '<h5 class="modal-title" id="exampleModalLabel">' + $(this).text() + '</h5>'
+        arr += modaAfterTitle
+        $.post("/hr/hrDashboard/examDetails",
+                {
+                    id: $(this).val()
+                },
+                function (data, status) {
+                    arr += '<table class="table table-dark"><thead><tr><th scope="col">Question Body</th><th scope="col">Answer Body</th><th scope="col">Correct</th></tr>  </thead><tbody>'
+                    data.forEach((item) => {
+                        //arr += '<tr><th scope="row">'+'<input type=text value=' + item.questionBody + '></th><td>' +'<input type=text value=' + item["AnswerBody"] + '></td><td>' +'<input type=text value=' + item.correct + '></td></tr>'
+                        arr += '<tr><th scope="row">' + item.questionBody + '</th><td>' + item["AnswerBody"] + '</td><td>' + item.correct + '</td></tr>'
+                    })
+                    arr += '</tbody></table>'
+                    arr += modaAfterBody;
+                    arr += '<button type="button" class="btn btn-secondary" >Close</button>'
+                    arr += afterFoter;
+                    $('.moda').html(arr);
+                });
+    });
+*/
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>

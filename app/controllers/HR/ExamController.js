@@ -2,7 +2,8 @@ var exams = require("../../model/exam");
 
 var listExams=(req,res,next)=>{
     exams.GetAllExams((err,result)=>{
-        res.send(result);
+        res.render("hr/ExamManager" ,{results:result})
+       // res.send(result);
     })
 }
 var examDetails= (req,res,next)=>{

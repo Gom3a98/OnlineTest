@@ -9,6 +9,7 @@ var ListApplicants = (req , res)=>{
         res.render("hr/Applications" , {results : results})
     })
 };
+
 var SendMail = (req ,res )=> {
     var nodemailer = require('nodemailer');
     var Student = require("../../model/Student");

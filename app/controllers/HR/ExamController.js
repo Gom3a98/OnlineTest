@@ -7,7 +7,7 @@ var listExams=(req,res,next)=>{
     })
 }
 var examDetails= (req,res,next)=>{
-    exams.ExamWithQ_A(req.body.id,(err,result)=>{
+    exams.ExamWithQ_A(req.param("id"),(err,result)=>{
         res.send(result)
     })
 }

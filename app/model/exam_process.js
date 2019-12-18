@@ -18,6 +18,9 @@ module.exports={
     },
     findById:(id , callback)=>{
         con.query("select * from online_test.exams_process ep inner join online_test.exam_status es on ep.epid = es.process_id and ep.epid= ?" , [id] , callback)
+    },
+    getAllProcesses:(callback)=>{
+        con.query("select * from online_test.exams_process" , callback)
     }
 
 }

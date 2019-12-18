@@ -21,7 +21,7 @@ router.get('/hrDashboard/listExams',ExamController.listExams);
 router.post('/hrDashboard/examDetails',ExamController.examDetails);
 
 router.post('/hrDashboard/insertExam',ExamController.CreateExam);
-router.post('/hrDashboard/deleteExam',ExamController.deleteExam);
+router.get('/hrDashboard/deleteExam/:id',ExamController.deleteExam);
 router.post('/hrDashboard/updateExam',ExamController.updateExam);
 
 router.post('/hrDashboard/insertQuestion',QuestionController.CreateQuestion);

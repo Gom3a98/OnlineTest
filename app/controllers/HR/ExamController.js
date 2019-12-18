@@ -14,22 +14,17 @@ var examDetails= (req,res,next)=>{
 var CreateExam=(req,res,next)=>{
     exams.insertExam(req.body.ExamTitle,req.body.ExamDuration,(err,result)=>{
         if(err)
-            res.send('0')
+            res.send(err)
         else
-            res.send('1')
+            res.redirect("/hr/hrDashboard/listExams");
     })
 
 };
 var deleteExam=(req,res,next)=>{
-    id=req.body.ID;
-    console.log(console.log(req.body.id))
+    var id=req.param("id");
+    console.log(id)
     exams.DeleteExam(id,(err,result)=>{
-
-        if(err||result.affectedRows==0)
-            res.send('0')
-        else
-            res.send('1')
-
+        res.redirect("/hr/hrDashboard/listExams");
     })
 }
 var updateExam = (req,res,next)=>{
@@ -39,9 +34,9 @@ var updateExam = (req,res,next)=>{
 
     exams.UpdateExam(id,Examtitle,ExamDuration,(err,result)=>{
         if(err||result.affectedRows==0)
-            res.send('0')
+            res.send(err)
         else
-            res.send('1')
+            res.redirect("/hr/hrDashboard/listExams");
 
     })
 }

@@ -105,6 +105,7 @@
                     <th scope="col">Student</th>
                     <th scope="col">Position</th>
                     <th scope="col">View</th>
+                    <th scope="col">Full Test</th>
 
                 </tr>
                 </thead>
@@ -117,6 +118,9 @@
                             <a href="#my_modal" id="{{this.epid}}"
                                class="btn btn-primary dd" data-toggle="modal" data-book-id="{{this.epid}}">Preview</a>
                         </td>
+                        <td>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-xl">View Full Test</button>
+                        </td>
                     </tr>
                 {{/results}}
                 </tbody>
@@ -125,6 +129,31 @@
         </div>
 
     </div>
+
+    <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Student Progress in Each Exam</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    All Test Here
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="refuseBtn" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal"
+                            data-toggle="modal" data-target="#my_modal2">OK
+                    </button>
+                    <!--                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- /#page-content-wrapper -->
     <div class="modal fade" id="my_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
@@ -158,34 +187,48 @@
 
         jQuery(e.currentTarget).find('input[name=cc]').val(processId);
         $.get("/hr/getStatus/"+processId,(data)=>{
-            var arr =""
+            var arr ="";
+            var sum =0 ;
+            var tot = 0;
             data.forEach(function (item) {
-                arr+='<label>Exam No.' + item.examId + '</label>'
+                //arr+='<label>Exam No.' + item.examId + '</label>';
+                arr+='<div class="">Finishing Date [' + item.finishing_date + ']</div>'
                 var sc = parseInt(item.score);
                 if(sc <= 30)
                 {
-                    arr += ('<div class="progress">\n' +
-                            '      <div class="progress-bar bg-danger" role="progressbar" style="width:' + item.score + '%" aria-valuenow="' + item.score + '" aria-valuemin="0" aria-valuemax="100">' + item.score + '%</div>\n' +
+                    arr += ('<div  id="' + item.examId + '" class="progress">\n' +
+                            '      <div class="progress-bar bg-danger pp" role="progressbar" style="width:' + item.score + '%;cursor: pointer;" aria-valuenow="' + item.score + '" aria-valuemin="0" aria-valuemax="100">' + item.score + '%Exam No.' + item.examId + '</div>\n' +
                             '</div>')
                 }
                 else if(sc>30 && sc <= 60)
                 {
-                    arr += ('<div class="progress">\n' +
-                            '      <div class="progress-bar bg-warning" role="progressbar" style="width:' + item.score + '%" aria-valuenow="' + item.score + '" aria-valuemin="0" aria-valuemax="100">' + item.score + '%</div>\n' +
+                    arr += ('<div id="' + item.examId + '" class="progress">\n' +
+                            '      <div class="progress-bar bg-warning pp" role="progressbar" style="width:' + item.score + '%;cursor: pointer;" aria-valuenow="' + item.score + '" aria-valuemin="0" aria-valuemax="100">' + item.score + '%Exam No.' + item.examId + '</div>\n' +
                             '</div>')
                 }
                 else
                 {
-                    arr += ('<div class="progress">\n' +
-                            '      <div class="progress-bar bg-success" role="progressbar" style="width:' + item.score + '%" aria-valuenow="' + item.score + '" aria-valuemin="0" aria-valuemax="100">' + item.score + '%</div>\n' +
+                    arr += ('<div  id="' + item.examId + '" class="progress">\n' +
+                            '      <div class="progress-bar bg-success pp" role="progressbar" style="width:' + item.score + '%;cursor: pointer;" aria-valuenow="' + item.score + '" aria-valuemin="0" aria-valuemax="100">' + item.score + '%Exam No.' + item.examId + '</div>\n' +
                             '</div>')
                 }
                 arr+="<br>"
+                sum+=sc;
+                tot+=100;
             });
+            sum = Math.ceil((sum/tot)*100);
+            arr+='<div class="">Total Score</div>'
+            arr += ('<div class="progress">' +
+                    '      <div class="progress-bar bg-success pp" role="progressbar" style="width:' + sum+ '%;cursor: pointer;" aria-valuenow="' + sum + '" aria-valuemin="0" aria-valuemax="100">' + sum + '%</div>\n' +
+                    '</div>');
             $('.modal-body').html(arr)
         })
 
     });
+    $("#my_modal").on('click' , 'div.pp' , ()=>{
+        alert($(this).attr('id'));
+    })
+
     $("#menu-toggle").click(function (e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");

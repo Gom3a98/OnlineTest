@@ -15,25 +15,24 @@
 </ul>
 <hr>
 <div class="container">
-    <div class="row col-md-11 pt-4">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th scope="col">Title</th>
-                <th scope="col">Apply</th>
-            </tr>
-            </thead>
-            <tbody>
-            {{#positions}}
-                <tr>
-                    <td>{{this.title}}</td>
-                    <td>
-                        <a href="#my_modal" id="btn{{this.id}}" class = "btn btn-primary" data-toggle="modal" data-pos-id="{{this.id}}" data-book-id="{{this.description}}">Apply</a>
-                    </td>
-                </tr>
-            {{/positions}}
-            </tbody>
-        </table>
+    <div class="row pt-4 ">
+{{#positions}}
+        <div class="card text-center col-6">
+            <div class="card-header">
+                Opened
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{this.title}}</h5>
+                <p class="card-text">{{this.description}}"</p>
+                <a href="#my_modal" id="btn{{this.pid}}" class = "btn btn-primary" data-toggle="modal"
+                   data-title="{{this.title}}"
+                   data-pos-id="{{this.pid}}" data-book-id="{{this.description}}">Apply</a>
+            </div>
+            <div class="card-footer text-muted">
+                2 days ago
+            </div>
+        </div>
+{{/positions}}
     </div>
 </div>
 <!-- Modal -->
@@ -48,20 +47,26 @@
             </div>
 
             <!-- Modal -->
-            <form method="post" action="fileupload" enctype="multipart/form-data" id="myform">
-            <div class="modal-body">
-                <p class="desc"></p>
-                <input value ="" type="text" name="stId "id="stId">
-                    <div class="custom-file">
-                        <label class="custom-file-label" for="file">Choose your CV</label>
-                        <input type="file" class="custom-file-input CV" id="file" name="filetoupload"/><br>
+            <form action="/fileupload"  method="post" enctype="multipart/form-data" id="myform">
+                <div class="modal-body">
+                    <p class="desc"></p>
+<!--                    <input value =""  type="text" name="title" >-->
+<!--                    <input value =""  type="text" name="posId" >-->
+                    <div class="input-group mb-3">
+                        <input type="text" hidden  name="title" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                     </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary uploadCV" >Upload</button>
-
-            </div>
+                    <div class="input-group mb-3">
+                        <input type="text"  hidden name="posId" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                    </div>
+                        <div class="custom-file">
+                            <label class="custom-file-label" for="file">Choose your CV</label>
+                            <input type="file" class="custom-file-input CV" id="file" name="filetoupload"/><br>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" >Upload</button>
+                </div>
             </form>
         </div>
     </div>
@@ -75,41 +80,10 @@
         jQuery('#my_modal').on('show.bs.modal', function(e) {
             var bookId = jQuery(e.relatedTarget).data('book-id');
             var posId = jQuery(e.relatedTarget).data('pos-id');
+            var title = jQuery(e.relatedTarget).data('title');
             jQuery(e.currentTarget).find('.desc').append(bookId);
-            jQuery(e.currentTarget).find('input[name=stId]').val(posId);
-        });
-        var pressed_btn_id ;
-        $("a").click(function() {
-            pressed_btn_id = this.id;
-        });
-        $('#upload_btn').click(function() {
-            $("#"+pressed_btn_id).removeClass('btn-primary').addClass('btn-success disabled ');
-
-          //  $(this).addClass('btn-success').removeClass('btn-primary ');
-        });
-
-        jQuery('button#but_upload').click(function(e){
-            e.preventDefault();
-            var fd = new FormData();
-            var files = $('#file')[0].files[0];
-            var PosId = $("input[name='myId']");
-            fd.append('file',files);
-            fd.append('posId' , PosId);
-            $.ajax({
-                url: "/uploadCV",
-                method: 'post',
-                data: {
-                    name : "ahmed",
-                    age : 20
-                },
-                success: function(result){
-                    if (result.success)
-                    {
-                       suc(availableHours);
-                    }
-                    else
-                        alert(result.failed);
-                }});
+            jQuery(e.currentTarget).find('input[name=posId]').val(posId);
+            jQuery(e.currentTarget).find('input[name=title]').val(title);
         });
     });
 </script>

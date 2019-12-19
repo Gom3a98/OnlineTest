@@ -66,20 +66,22 @@ module.exports = {
 	},
 
 	uploadCV:async function (req, res, next) {
+		console.log(req.body);
 		if (await Authentication(req, res)) {
 			var form = new formidable.IncomingForm();
 			form.parse(req, function (err, fields, files) {
-
+				var posId = fields.posId;
+				var title = fields.title;
 				var oldpath = files.filetoupload.path;
-				var newpath = 'F:/Level 4 Term 1/IA Project/OnlineTestV1/public/CVS/' + req.session.userName + ".pdf";
-				var absPath = req.session.userName + ".pdf";
-				//gomath path:F:\Level 4 Term 1\IA Project\OnlineTestV1\public\CVS
-
+				var newpath = 'F:/Level 4 Term 1/IA Project/OnlineTestV1/public/CVS/' + req.session.userName +"_"+title+".pdf";
+				var absPath = req.session.userName +"_"+title.trim()+".pdf";
 				fs.removeSync(newpath, null);
+				console.log(fields.posId)
 				fs.move(oldpath, newpath, function (err) {
 					if (err) throw err;
-					Student.addCV(absPath, req.session.userName, null);
-					// Applicant.saveApplication()
+						// Student.addCV(absPath, req.session.userName, null);
+					 	Applicant.saveApplication(req.session.userName , posId , absPath ,null);
+
 
 					// res.end();
 				});

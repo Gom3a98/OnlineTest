@@ -1,9 +1,7 @@
-var con = require("../../../config/connection")
 var Student = require("../../Model/Student");
 var Position = require("../../model/Position");
-var Applicant = require("../../model/Applicants")
 var formidable = require('formidable');
-
+//http://localhost:3000/startExam/admin/9/1
 const fs = require('fs-extra');
 
 var Authentication = async (req, res) => {
@@ -87,6 +85,7 @@ module.exports = {
 			})
 		}
 	},
+
 	checkUserName:function(req,res,next){
 		var userName = req.query.userName ;
 		console.log(userName[0])

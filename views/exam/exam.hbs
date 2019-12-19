@@ -153,11 +153,13 @@
                     $('#pay').attr('disabled', false);
                     $('#load').removeClass('progress-bar-striped active');
                     $('#load').html('payment complete');
-                     var url = '/profile';
+                    alert("done2")
+                    var url = '/profile';
                     var myWindow = window.open(url, "_self", "width=1200, height=600,scrollbars=yes,status=yes,location = yes");
-                }
+                
+                    }
 
-            }, duration*1000);
+            }, duration*1000000);
 
 
         });
@@ -174,6 +176,7 @@
                 $.get('/SaveScore',{'score':score,'ProcessID':'{{ProcessID}}','examID':'{{examID}}'},null)
                 var url = '/profile';
                 var myWindow = window.open(url, "_self", "width=1200, height=600,scrollbars=yes,status=yes,location = yes");
+
             }
             $('.startExam').text('skip');
             $('.q1').html(data[0][0].questionBody)

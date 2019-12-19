@@ -76,7 +76,7 @@
             var bookId = jQuery(e.relatedTarget).data('book-id');
             var posId = jQuery(e.relatedTarget).data('pos-id');
             jQuery(e.currentTarget).find('.desc').append(bookId);
-            jQuery(e.currentTarget).find('#stId').val(posId);
+            jQuery(e.currentTarget).find('input[name=stId]').val(posId);
         });
         var pressed_btn_id ;
         $("a").click(function() {

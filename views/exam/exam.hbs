@@ -174,11 +174,9 @@
             if(data[0].length==0)
             {
                 $.get('/SaveScore',{'score':score,'ProcessID':'{{ProcessID}}','examID':'{{examID}}'},null)
-                //alert("done")
-                 var url = '/profile';
-                 var myWindow = window.open(url, "_self", "width=1200, height=600,scrollbars=yes,status=yes,location = yes");
-                
-               
+                var url = '/profile';
+                var myWindow = window.open(url, "_self", "width=1200, height=600,scrollbars=yes,status=yes,location = yes");
+
             }
             $('.startExam').text('skip');
             $('.q1').html(data[0][0].questionBody)

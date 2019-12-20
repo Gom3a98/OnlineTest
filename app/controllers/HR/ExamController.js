@@ -3,9 +3,15 @@ var exams = require("../../model/exam");
 var listExams=(req,res,next)=>{
     exams.GetAllExams((err,result)=>{
         res.render("hr/ExamManager" ,{results:result})
-       // res.send(result);
+
     })
-}
+};
+var listExamsV2=(req,res,next)=>{
+    exams.GetAllExams((err,result)=>{
+        res.send(result);
+    })
+};
+
 var examDetails= (req,res,next)=>{
     exams.ExamWithQ_A(req.param("id"),(err,result)=>{
         res.send(result)
@@ -46,5 +52,6 @@ module.exports ={
     examDetails:examDetails,
     CreateExam:CreateExam,
     deleteExam:deleteExam,
-    updateExam:updateExam
+    updateExam:updateExam,
+    listExamsV2:listExamsV2
 }

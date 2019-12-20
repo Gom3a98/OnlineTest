@@ -27,7 +27,8 @@ router.get("/ListExams/:user_name/:process_id" , ExamProcessController.ListExams
 router.get('/checkUserName',user.checkUserName)
 router.get('/startExam/:canName/:processID/:examid',examProcess.startExam)
 router.get('/SaveAnswer',examProcess.SaveAnswer)
-router.get('/SaveScore',examProcess.SaveScore)
+router.get('/SaveScore',examProcess.SaveScore);
+router.get('/checkForAvailability/:pid/:pref',examProcess.checkForAvailability)
 router.get('/test',(req,res,next)=>{
   console.log("hiii")
   res.redirect('/profile')

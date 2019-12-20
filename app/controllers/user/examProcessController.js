@@ -72,6 +72,14 @@ module.exports={
         console.log(req.query)
         ExamStatue.UpdateScore(examID,ProcessID,score,null);
 
-    }
+    },
+	checkForAvailability:(req , res)=>{
+    	var pref = req.param('pref');
+    	var processId = req.param('pid');
+    	ExamStatue.checkForAvailabilityToEnterExam(pref ,processId,(err , result)=>{
+			res.send(result);
+		})
+
+	}
 
 }

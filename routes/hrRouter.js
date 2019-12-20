@@ -18,6 +18,7 @@ router.get('/hrDashboard' , HR.ViewDashBoard);
 
 
 router.get('/hrDashboard/listExams',ExamController.listExams);
+router.get('/hrDashboard/listExamsV2',ExamController.listExamsV2);
 router.get('/hrDashboard/examDetails/:id',ExamController.examDetails);
 
 router.post('/hrDashboard/insertExam',ExamController.CreateExam);

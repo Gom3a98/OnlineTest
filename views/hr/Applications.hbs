@@ -221,7 +221,7 @@
         });
         $("#approve").click(()=>{
             $("input[name=Ids]").val($("#stId").val())
-            $.get("/hr/hrDashboard/listExams",(data)=>{
+            $.get("/hr/hrDashboard/listExamsV2",(data)=>{
                 console.log(data);
                 data.forEach((item) => {
                     $('#select1').append("<option value="+item.examID+">"+ item.examTitle+" </option>");

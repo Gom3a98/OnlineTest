@@ -8,7 +8,7 @@ const fs = require('fs-extra');
 
 var Authentication = async (req, res) => {
 
-	if (!req.session.userName)
+	if (!req.session.userName && req.session.type==null)
 		return false;
 	else
 		return true;
@@ -36,11 +36,16 @@ module.exports = {
 			if (result.length == 1 && Student.compare(req.body.password, result[0].password)) {
 				req.session.userName = username;
 				req.session.studentId = result[0].id;
-				res.redirect('/profile');
+				if(result[0].type != 1){
+					res.redirect('/profile');
+				}
+				else {
+					req.session.type = result[0].type;
+					res.redirect('/hr/hrDashboard');
+				}
 			}
 			else
 				res.redirect('/login')
-
 		});
 	},
 	loginGet: (req, res, next) => {
@@ -51,7 +56,6 @@ module.exports = {
 
 		if (await Authentication(req, res)) {
 			Position.getAllPositions(function (err, results) {
-				console.log("results");
 				res.render("user/profile", {
 					username: req.session.userName,
 					positions: results
@@ -62,7 +66,6 @@ module.exports = {
 		else
 			res.redirect('/login')
 		//Authentication(req,res).then(res.send('Welcome back, ' + req.session.userName + '!'));
-
 	},
 
 	uploadCV:async function (req, res, next) {

@@ -1,9 +1,25 @@
 var Applicant = require("../../model/Applicants");
 var ExamProcess = require("../../model/exam_process");
 var ExamStatus = require("../../model/Exam_Status");
-var ViewDashBoard = (request,response)=>{
-    response.render('hr/MainDashboard');
+var Notification  = require("../../model/Notification");
+var Authentication = async (req, res) => {
 
+    if (!req.session.userName && !req.session.type)
+        return false;
+    else
+        return true;
+}
+var ViewDashBoard = async (req,res)=>{
+    if (await Authentication(req, res)) {
+        Notification.getByUserName(req.session.userName , function (err, results) {
+            res.render('hr/MainDashboard', {
+                username: req.session.userName,
+                Notifications : results
+            });
+        });
+    }
+    else
+        res.redirect('/login')
 };
 var ListApplicants = (req , res)=>{
     Applicant.getAllPositions((err , results )=>{

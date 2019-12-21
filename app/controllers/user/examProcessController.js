@@ -6,8 +6,9 @@ var studnetAnswer = require('../../model/sudentAnswer');
 var Async = require('async');
 var jsonUtils = require("../../../config/json_utils");
 var ExamStatue= require('../../model/Exam_Status');
-
-
+var Sender = require("../SendingMail");
+var Student = require("../../model/Student");
+var Notification = require("../../model/Notification");
 module.exports={
     startExam: function (req, res, next) {
 		var arr = req.url.split('/');
@@ -69,7 +70,15 @@ module.exports={
         var score=req.query.score;
         var ProcessID=req.query.ProcessID ;
         var examID = req.query.examID;
-        console.log(req.query)
+        var user_name = req.query.CondUserName;
+		Student.findStudentByUserName(user_name , (err  , result)=>{
+			var  To = result[0].email;
+			let Subject = "On Fire Mr . "+ user_name + "Exam Scores";
+			let Body = "Your Score is "+score +" Keep Going on the Next Exams\n\n\nGood Luck";
+			Sender.SendMail(To , Subject , Body, res , "/profile");
+			Notification.save(Subject , "HR" , Body , user_name,null);
+		});
+
         ExamStatue.UpdateScore(examID,ProcessID,score,null);
 
     },

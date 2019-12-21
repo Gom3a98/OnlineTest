@@ -37,7 +37,7 @@ module.exports ={
                 let Body = "Hello Mr."+user_name+"\nhere is your exams that you should\n" +
                     " Take Respectly To To Full Acceptance\n ";
                 Body+="http://localhost:3000/ListExams/"+user_name+"/"+x;
-                Sender.SendMail(To , Subject , Body, res);
+                Sender.SendMail(To , Subject , Body, res , "/hr/ListApplicants");
             });
 
         })

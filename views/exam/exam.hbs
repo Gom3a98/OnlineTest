@@ -171,7 +171,7 @@
                 $('#pay').click()
             if(data[0].length==0)
             {
-                $.get('/SaveScore',{'score':score,'ProcessID':'{{ProcessID}}','examID':'{{examID}}'},null)
+                $.get('/SaveScore',{'score':score,'ProcessID':'{{ProcessID}}','examID':'{{examID}}' , 'CondUserName':'{{CondUserName}}'},null)
                 var url = '/profile';
                 var myWindow = window.open(url, "_self", "width=1200, height=600,scrollbars=yes,status=yes,location = yes");
             }

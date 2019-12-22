@@ -15,8 +15,8 @@ module.exports ={
     getExamStatusByProcessId : function (processId , callback) {
         con.query("select * from exam_status where process_id = ?" , [processId] , callback);
     },
-    UpdateScore:function(examID,ProcessID,score,callback){
-        var query = "UPDATE online_test.exam_status SET score= '" + score +"' , isFinished='1' WHERE process_id= '"+ProcessID+"' and examId= '"+examID+"'";
+    UpdateScore:function(examID,ProcessID,score,finishDate,callback){
+        var query = "UPDATE online_test.exam_status SET score= '" + score +"' , isFinished='1' ,finishing_date ='"+finishDate+"' WHERE process_id= '"+ProcessID+"' and examId= '"+examID+"'";
         console.log(query);
         con.query(query,callback);
     }

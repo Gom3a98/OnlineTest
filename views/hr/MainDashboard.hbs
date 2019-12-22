@@ -66,11 +66,10 @@
     <div class="bg-light border-right" id="sidebar-wrapper">
       <div class="sidebar-heading">HR Dashboard</div>
       <div class="list-group list-group-flush">
-        <a href="/hr/ListApplicants" id="ListApp" class="list-group-item list-group-item-action bg-light">List Applicants</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light examlist">List Exams</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Candidates Progress</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light mangeExam">Manage Exams</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Manage Positions</a>
+          <a href="/hr/ListApplicants" id="ListApp" class="list-group-item list-group-item-action bg-light">List Applicants</a>
+          <a href="/hr/hrDashboard/candidatesProgress" class="list-group-item list-group-item-action bg-light">Candidates Progress</a>
+          <a href="/hr/hrDashboard/listExams" class="list-group-item list-group-item-action bg-light mangeExam">Manage Exams</a>
+          <a href="/hr/createPositionForm" class="list-group-item list-group-item-action bg-light">Manage Positions</a>
 
       </div>
     </div>
@@ -625,64 +624,6 @@ Delete and Update question
         })
     })
 
-</script>
-<script>
-
-  //  $("#menu-toggle").click(function (e) {
-
-        $(document).ready(() => {
-            var pressed_btn_id;
-            $("#ListApp").click((e) => {
-                $.get("/hr/ListApplicants", (data) => {
-                    var table = '<h1 class="mt-4">List of All applicants</h1>' +
-                            '<table class="table table-striped"><thead><tr>' +
-                            '<th scope="col">Student</th>' +
-                            ' <th scope="col">Position</th>' +
-                            '</tr></thead><tbody>';
-                    data.forEach((item) => {
-                        table += '<tr>' +
-                                '<td>' + item["user_name"] + '</td>' +
-                                '<td>' + item["title"] + '</td>' +
-                                '<td>' +
-                                '<a href="#my_modal" class = "btn btn-primary dd " data-toggle="modal" data-book-id="' + item['id'] + '">Preview</a>' +
-                                '</td>'
-                                +
-                                '</tr>'
-                    });
-                    table += "</tbody></table>";
-                   // if ($("#tableApp").text() == "")
-                        $(".body_t").html(table);
-                })
-            });
-            var studentId = 16;
-            $("#acceptBtn").click(() => {
-                $.getJSON("/hr/SendMail/" + studentId, (data) => {
-                    console.log("In Data Retrieval  " + pressed_btn_id);
-                    if (data.message == "Sent") {
-                        console.log("Its Ok");
-                        $("#" + pressed_btn_id).removeClass('btn-primary').addClass('btn-success disabled ');
-                    }
-                })
-            });
-
-
-            $("#menu-toggle").click(function (e) {
-                e.preventDefault();
-                $("#wrapper").toggleClass("toggled");
-            });
-
-        })
-        $(document).on('show.bs.modal', '#my_modal', function (e) {
-            e.preventDefault();
-            var bookId = jQuery(e.relatedTarget).data('book-id');
-            jQuery(e.currentTarget).find('#stId').val("bookId");
-        });
-        $("table").on('click', 'a.dd', () => {
-            //var x =  $(this).attr('id')
-            alert($(this).attr('href'))
-
-      //  });
-    })
 </script>
 
 <!----------------------------------------------------------------------------------------------->

@@ -15,7 +15,7 @@ module.exports={
     },
 
     DeleteExam:function(id,callback){
-        var query = "DELETE FROM online_test.exams WHERE examID = "+id;
+        var query = "DELETE FROM online_test.exams WHERE examID = "+id+";DELETE FROM online_test.question WHERE examID ="+id;
         con.query(query,callback);
     },
     UpdateExam:function(id,examTitle,examDuration,callback){

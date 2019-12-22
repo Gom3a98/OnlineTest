@@ -13,13 +13,15 @@ router.get('/', function(req, res, next) {
 });
 router.get('/createPositionForm' , positionController.create);
 router.post('/store' , positionController.store);
-
 router.get('/hrDashboard' , HR.ViewDashBoard);
 
+
+
 router.get('/hrDashboard/listExams',ExamController.listExams);
-router.post('/hrDashboard/examDetails',ExamController.examDetails);
+router.get('/hrDashboard/examDetails/:id',ExamController.examDetails);
+
 router.post('/hrDashboard/insertExam',ExamController.CreateExam);
-router.post('/hrDashboard/deleteExam',ExamController.deleteExam);
+router.get('/hrDashboard/deleteExam/:id',ExamController.deleteExam);
 router.post('/hrDashboard/updateExam',ExamController.updateExam);
 
 router.post('/hrDashboard/insertQuestion',QuestionController.CreateQuestion);
@@ -32,7 +34,7 @@ router.post('/hrDashboard/updateAnswer',QuestionController.updateAnswer);
 
 router.get('/hrDashboard' , HR.ViewDashBoard);
 router.get('/ListApplicants' , HR.ListApplicants);
-router.get('/SendMail/:id' , HR.SendMail);
+// router.get('/SendMail/:id' , HR.SendMail);
 
 router.get('/searchStudentEmail',SearchController.searchCanEmail);
 router.get('/searchStudentName',SearchController.searchCandUserName);
@@ -41,6 +43,8 @@ router.get('/searchExamDuration',SearchController.serachExamDuration);
 router.get('/searchExamQuestion',SearchController.searchExamQuestion);
 
 router.post('/approval' ,ExamProcessController.approval)
+router.get("/hrDashboard/candidatesProgress" , HR.candidateProgress);
+router.get("/getStatus/:processId" , HR.getStatusOfCandidate);
 router.get('/Test',(req,res,next)=>{
   res.render('exam/examList')
 })

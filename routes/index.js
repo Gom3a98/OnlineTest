@@ -22,16 +22,18 @@ router.post("/fileupload" , user.uploadCV);
 
 router.get('/checkUserName',user.checkUserName);
 
+
+
 router.get("/ListExams/:user_name/:process_id" , ExamProcessController.ListExams);
+router.get('/startExam/:canName/:processID/:examid',ExamProcessController.startExam);
+router.get('/SaveAnswer',ExamProcessController.SaveAnswer);
+router.get('/SaveScore',ExamProcessController.SaveScore);
+//router.get('/checkForAvailability/:pid/:pref',ExamProcessController.checkForAvailability);
 
-router.get('/checkUserName',user.checkUserName)
 
-router.get('/startExam/:canName/:processID/:examid',ExamProcessController.startExam)
-router.get('/SaveAnswer',ExamProcessController.SaveAnswer)
-router.get('/SaveScore',ExamProcessController.SaveScore)
 router.get('/notifcation',notify.selectAllNotify)
 router.get('/notifcationDetails',notify.selectSpecificNotify)
-router.get('/checkForAvailability/:pid/:pref',examProcess.checkForAvailability)
+
 
 
 module.exports = router;

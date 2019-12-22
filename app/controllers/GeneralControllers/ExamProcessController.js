@@ -1,5 +1,5 @@
 
-var Exam_Process = require("../../model/exam_process");
+var Exam_Process = require("../../model/Exam_process");
 
 var Exam_Status = require("../../model/Exam_Status");
 var Student =  require("../../model/Student");

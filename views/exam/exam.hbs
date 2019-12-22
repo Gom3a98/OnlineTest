@@ -3,6 +3,10 @@
 
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+
+
+
         <title>Sample Scholarship Application Form </title>
         <link href="https://cdn.jotfor.ms/static/formCss.css?3.3.14458" rel="stylesheet" type="text/css" />
         <link type="text/css" rel="stylesheet" href="https://cdn.jotfor.ms/css/styles/nova.css?3.3.14458" />
@@ -81,31 +85,23 @@
                 array[currentIndex] = array[randomIndex];
                 array[randomIndex] = temporaryValue;
             }
-
             return array;
         }
         function tryParseJSON(jsonString) {
             try {
                 var o = JSON.parse(jsonString);
-
                 if (o && typeof o === "object") {
                     return o;
                 }
             }
             catch (e) { }
-
             return null;
         }
         var decodeJSON = function (obj) {
-
             obj = decodeURI(obj);
-
-
-
             return tryParseJSON(obj);
         };
         var finishDate = new Date().toJSON().slice(0,10).replace(/-/g,'/');
-
         var data = decodeJSON("{{result}}");
         var duration = "{{duration}}"
         var score = 0,skiped=0;
@@ -124,30 +120,21 @@
             $.get('/SaveAnswer', { 'questioBody': $('.q1').html(), 'answerBody': $(this).val(), 'correct': ($(this).attr('id') == 'input_') ? '1' : '0', 'examTitle': '{{examTitle}}', 'CondUserName': '{{CondUserName}}' }, null)
             $('.startExam').click()
         })
-
-
         $(document).ready(() => {
             $('#pay').hide()
             $('.skip').hide()
             $('#pay').click(function () {
-
                 var timerId, percent;
-
                 // reset progress bar
                 percent = 0;
                 $('#pay').attr('disabled', true);
                 $('#load').css('width', '0px');
                 $('#load').addClass('progress-bar-striped active');
-
-
                 timerId = setInterval(function () {
-
                     // increment progress bar
                     percent += 1;
                     $('#load').css('width', percent + '%');
                     $('#load').html(percent + '%');
-
-
                     // complete
                     if (percent >= 100) {
                         clearInterval(timerId);
@@ -157,13 +144,8 @@
                         alert("done2")
                         var url = '/profile';
                         var myWindow = window.open(url, "_self", "width=1200, height=600,scrollbars=yes,status=yes,location = yes");
-
                     }
-
-
                 }, duration * 1000);
-
-
             });
             var Befor = '';
             Befor += '<span class="form-radio-item" style="clear:left">'
@@ -191,7 +173,6 @@
                 arr += '<input type="radio" class="form-radio" id="input_" name="c' + data[1][0][0].qid + '"value="' + data[1][0][0].AnswerBody + '" />'
                 arr += '<label for="input_" >' + data[1][0][0].AnswerBody + '</label>'
                 arr += end;
-
                 console.log(data[1].splice(0, 1));
                 var Answer = [];
                 Answer.push(arr);
@@ -206,49 +187,7 @@
                 Answer = shuffle(Answer);
                 $('.A1').html(Answer)
             })
-
-            }, duration*1000);
-
-
-        });
-        var Befor = '';
-        Befor += '<span class="form-radio-item" style="clear:left">'
-        Befor += '<span class="dragger-item">'
-        Befor += '</span>'
-        var end = '</span>'
-        $('.startExam').click(function () {
-            if(data[0].length==5)
-                $('#pay').click()
-            if(data[0].length==0)
-            {
-                $.get('/SaveScore',{'score':score,'ProcessID':'{{ProcessID}}','examID':'{{examID}}' , 'CondUserName':'{{CondUserName}}'},null)
-                var url = '/profile';
-                var myWindow = window.open(url, "_self", "width=1200, height=600,scrollbars=yes,status=yes,location = yes");
-            }
-            $('.startExam').text('skip');
-            $('.q1').html(data[0][0].questionBody)
-            console.log(data)
-            console.log(data[0].splice(0, 1));
-            var arr = Befor;
-            arr += '<input type="radio" class="form-radio" id="input_" name="c' + data[1][0][0].qid + '"value="' + data[1][0][0].AnswerBody + '" />'
-            arr += '<label for="input_" >' + data[1][0][0].AnswerBody + '</label>'
-            arr += end;
-
-            console.log(data[1].splice(0, 1));
-            var Answer = [];
-            Answer.push(arr);
-            for (var z = 0; z < 3; z++) {
-                var arr2 = Befor;
-                arr2 += '<input type="radio"id="input_' + z + '"   name="c' + data[2][0][z].qid + '"value="' + data[2][0][z].AnswerBody + '" />'
-                arr2 += '<label for="input_' + z + '" >' + data[2][0][z].AnswerBody + '</label>'
-                arr2 += end;
-                Answer.push(arr2);
-            }
-            console.log(data[2].splice(0, 1));
-            Answer = shuffle(Answer);
-            $('.A1').html(Answer)
         })
-
     </script>
     <button type="button" class="btn btn-lg btn-primary startExam">Start Exam</button>
     <input type="button" class="btn btn-lg btn-primary skip" id="skip" value="skip">

@@ -68,6 +68,7 @@ module.exports ={
 		var examID = arr[4];
 		var deadline ,duration,examTitle;
 		Exam_Process.getExams(ProcessID, (err, result) => {
+			
 			console.log(result)
 			var arr = [];
 			console.log(result)

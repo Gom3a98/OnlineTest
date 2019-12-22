@@ -10,11 +10,11 @@ module.exports = {
         console.log(id);
         con.query('SELECT * FROM online_test.student WHERE id = ?',[id], callback)
     },
-    createStudent: function(req, callback) {
+    createStudent: function(name,email,password,phone, callback) {
         con.query(
             "INSERT INTO online_test.student" +
             " (user_name, email,password,phone_number)" +
-            " VALUES ('"+req.body.name+"','"+req.body.email+"','"+req.body.password+"','"+req.body.phone+"')" , callback )
+            " VALUES ('"+name+"','"+email+"','"+password+"','"+phone+"')" , callback )
     },
     removeStudent: function(id, callback) {
         con.query('DELETE FROM  online_test.student WHERE id = ?',[id], callback)

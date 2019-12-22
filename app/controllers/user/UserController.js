@@ -14,24 +14,27 @@ var Authentication = async (req, res) => {
 
 module.exports = {
 	signupGet: (req, res, next) => {
+		req.session.destroy();
 		res.render('user/userSignUp', { title: 'Sign Up' });
 	},
 	signupPost: (req, res, next) => {
-		req.body.password = Student.hashfun(req.body.password);
-		req.body.name = (req.body.email).split("@")[0];
-		Student.createStudent(req, function (err) {
+		password = Student.hashfun(req.body.password);
+		name = (req.body.first_name).split("@")[0];
+		email=req.body.first_name;
+		phone=req.body.phone_number;
+		Student.createStudent(name,email,password,phone, function (err) {
 			if (err) throw err;
 			req.session.userName = req.body.name;
-			res.redirect("/profile")
+			res.redirect("/profile");
 		});
 	},
 	loginPost: (req, res, next) => {
 
-		var username = req.body.username;
-
+		var username = req.body.userName;
 		var x = Student.findStudentByUserName(username, (err, result) => {
-
+			console.log(result)
 			if (result.length == 1 && Student.compare(req.body.password, result[0].password)) {
+				console.log("amr")
 				req.session.userName = username;
 				req.session.studentId = result[0].id;
 				res.redirect('/profile');
@@ -96,7 +99,4 @@ module.exports = {
 				res.send('0');
 		})
 	},
-	
-
 };
-

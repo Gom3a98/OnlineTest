@@ -46,6 +46,7 @@ router.get('/searchExamQuestion',SearchController.searchExamQuestion);
 router.post('/approval' ,ExamProcessController.approval)
 router.get("/hrDashboard/candidatesProgress" , HR.candidateProgress);
 router.get("/getStatus/:processId" , HR.getStatusOfCandidate);
+router.get("/getStudentAnswer/:user_name" , HR.getStudentAnswer);
 router.get('/Test',(req,res,next)=>{
   res.render('exam/examList')
 })

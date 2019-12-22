@@ -2,6 +2,7 @@ var Applicant = require("../../model/Applicants");
 var ExamProcess = require("../../model/exam_process");
 var ExamStatus = require("../../model/Exam_Status");
 var Notification  = require("../../model/Notification");
+var Student_Answer = require("../../model/sudentAnswer");
 var Authentication = async (req, res) => {
 
     if (!req.session.userName && !req.session.type)
@@ -37,14 +38,21 @@ var getStatusOfCandidate = (req , res)=>{
         res.send(results)
     })
 };
+var getStudentAnswer = function(req , res){
+   var usr_name = req.param("user_name");
+   console.log(usr_name);
+   Student_Answer.getByUserName(usr_name,(err ,result)=>{
+       res.send(result);
+   })
 
 
-
+};
 
 module.exports = {
     ViewDashBoard : ViewDashBoard,
     ListApplicants:ListApplicants,
     candidateProgress:candidateProgress,
-    getStatusOfCandidate:getStatusOfCandidate
+    getStatusOfCandidate:getStatusOfCandidate,
+    getStudentAnswer:getStudentAnswer
 };
 

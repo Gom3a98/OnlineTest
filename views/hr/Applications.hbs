@@ -66,11 +66,9 @@
         <div class="sidebar-heading">HR Dashboard</div>
         <div class="list-group list-group-flush">
             <a href="/hr/ListApplicants" id="ListApp" class="list-group-item list-group-item-action bg-light">List Applicants</a>
-            <a href="#" class="list-group-item list-group-item-action bg-light examlist">List Exams</a>
             <a href="#" class="list-group-item list-group-item-action bg-light">Candidates Progress</a>
-            <a href="#" class="list-group-item list-group-item-action bg-light mangeExam">Manage Exams</a>
-            <a href="#" class="list-group-item list-group-item-action bg-light">Manage Positions</a>
-
+            <a href="/hr/hrDashboard/listExams" class="list-group-item list-group-item-action bg-light mangeExam">Manage Exams</a>
+            <a href="/hr/createPositionForm" class="list-group-item list-group-item-action bg-light">Manage Positions</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -112,7 +110,7 @@
                     <td>{{this.user_name}}</td>
                     <td>{{this.title}}</td>
                     <td>
-                        <a href="#my_modal"  id="{{this.user_name}}--{{this.CV}}--{{this.pid}}" class="btn btn-primary dd " data-toggle="modal" data-book-id="{{this.id}}">Preview</a>
+                        <a href=".bd-example-modal-xl"  id="{{this.user_name}}--{{this.CV}}--{{this.pid}}" class="btn btn-primary dd " data-toggle="modal" data-book-id="{{this.id}}">Preview</a>
                     </td>
                 </tr>
                 {{/results}}
@@ -123,8 +121,8 @@
 
     </div>
     <!-- /#page-content-wrapper -->
-    <div class="modal fade" id="my_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade bd-example-modal-xl" id="my_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
@@ -134,7 +132,7 @@
                 </div>
                 <div class="modal-body">
                     <p class="desc"></p>
-                    <embed id = "CV" src="" width="450" height="500">
+                    <embed id = "CV" src="" width="1080" height="400">
                     <input name="stId" type="text" hidden value="" id ="stId"/>
                 </div>
                 <div class="modal-footer">
@@ -223,7 +221,7 @@
         });
         $("#approve").click(()=>{
             $("input[name=Ids]").val($("#stId").val())
-            $.get("/hr/hrDashboard/listExams",(data)=>{
+            $.get("/hr/hrDashboard/listExamsV2",(data)=>{
                 console.log(data);
                 data.forEach((item) => {
                     $('#select1').append("<option value="+item.examID+">"+ item.examTitle+" </option>");
@@ -256,7 +254,7 @@
         var arr = pressed_btn_id.split("--");
         pressed_btn_id = arr[0];
         var path = arr[1];
-        path = "public/CVS/"+path
+        path = "/CVS/"+path;
         //alert(pressed_btn_id)
         jQuery(document).find('#stId').val(pressed_btn_id+"|"+arr[2]);
         jQuery(document).find('#CV').attr("src", path);

@@ -11,9 +11,14 @@
 
                 $.get( "/checkUserName", { userName: username},(data,status)=>{
                     if(data=='1')
-                        $('.valid').html("<h9>valid User Name</h9>")
+                    {
+                        $( this ).css("background", "lightgreen");
+                        // $('.valid').html("<h9>valid User Name</h9>")
+                    }
                     else if(data=="0")
-                        $('.valid').html("<h9>UnValid User Name</h9>")
+                      {  $( this ).css("background", "red");
+                        // $('.valid').html("<h9>UnValid User Name</h9>")
+                      }
                 } );
             }
 

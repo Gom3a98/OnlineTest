@@ -19,6 +19,10 @@ module.exports ={
         var query = "UPDATE online_test.exam_status SET score= '" + score +"' , isFinished='1' WHERE process_id= '"+ProcessID+"' and examId= '"+examID+"'";
         console.log(query);
         con.query(query,callback);
+    },
+    checkForAvailabilityToEnterExam:(pref , processId ,cp)=>{
+        var sql = "select preference , isFinished from online_test.exam_status where process_id =? and preference < ?  and isFinished = 0";
+        con.query(sql,[processId ,pref] , cp)
     }
 
 };

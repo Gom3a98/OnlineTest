@@ -9,7 +9,7 @@ module.exports ={
 
     },
     getAllPositions : (callback)=>{
-        let sql = "SELECT * FROM online_test.position";
+        let sql = "SELECT * FROM online_test.position where pid not in (SELECT positionId from online_test.applicants)";
         con.query(sql , callback)
     }
 };

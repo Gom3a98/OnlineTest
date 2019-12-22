@@ -1,7 +1,26 @@
 var Applicant = require("../../model/Applicants");
-var ViewDashBoard = (request,response)=>{
-    response.render('hr/MainDashboard');
+var ExamProcess = require("../../model/exam_process");
+var ExamStatus = require("../../model/Exam_Status");
+var Notification  = require("../../model/Notification");
+var Student_Answer = require("../../model/sudentAnswer");
+var Authentication = async (req, res) => {
 
+    if (!req.session.userName && !req.session.type)
+        return false;
+    else
+        return true;
+}
+var ViewDashBoard = async (req,res)=>{
+    if (await Authentication(req, res)) {
+        Notification.getByUserName(req.session.userName , function (err, results) {
+            res.render('hr/MainDashboard', {
+                username: req.session.userName,
+                Notifications : results
+            });
+        });
+    }
+    else
+        res.redirect('/login')
 };
 var ListApplicants = (req , res)=>{
     Applicant.getAllPositions((err , results )=>{
@@ -9,46 +28,31 @@ var ListApplicants = (req , res)=>{
         res.render("hr/Applications" , {results : results})
     })
 };
-var SendMail = (req ,res )=> {
-    var nodemailer = require('nodemailer');
-    var Student = require("../../model/Student");
-    var email = "";
-    Student.getStudentById(req.param("id"),(err ,results)=>{
-        var transporter = nodemailer.createTransport({
-            service: 'yahoo',
-            auth: {
-                user: 'hhr49@yahoo.com',
-                pass: 'zohtozvwxwbmltuz'
-            }
+var candidateProgress = (req, res)=>{
+    ExamProcess.getAllProcesses((err , results)=>{
+       res.render("hr/CandidateProgress", {results:results})
+    })
+};
+var getStatusOfCandidate = (req , res)=>{
+    ExamStatus.getExamStatusByProcessId(req.param("processId") , (err , results)=>{
+        res.send(results)
+    })
+};
+var getStudentAnswer = function(req , res){
+   var usr_name = req.param("user_name");
+   console.log(usr_name);
+   Student_Answer.getByUserName(usr_name,(err ,result)=>{
+       res.send(result);
+   })
 
-        });
-        var mailOptions = {
-            from: 'hhr49@yahoo.com',
-            to: results[0].email,
-            subject: 'Approval of the Application you Applied',
-            text: 'Congratolation MR.'+results[0].user_name+'! you are have been selected to do the exam to reqruit to our job'
-        };
-
-        transporter.sendMail(mailOptions, function(error, info){
-            if (error) {
-                console.log(error);
-                res.send({message:"Error Ocurred : "+error})
-            } else {
-                console.log('Email sent: ' + info.response);
-                res.send(json({message : "Sent"}));
-
-            }
-        });
-
-    });
 
 };
-
-
 
 module.exports = {
     ViewDashBoard : ViewDashBoard,
     ListApplicants:ListApplicants,
-    SendMail:SendMail
+    candidateProgress:candidateProgress,
+    getStatusOfCandidate:getStatusOfCandidate,
+    getStudentAnswer:getStudentAnswer
 };
 

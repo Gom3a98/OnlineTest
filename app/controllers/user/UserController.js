@@ -8,7 +8,7 @@ const fs = require('fs-extra');
 
 var Authentication = async (req, res) => {
 
-	if (!req.session.userName)
+	if (!req.session.userName && req.session.type==null)
 		return false;
 	else
 		return true;
@@ -36,11 +36,16 @@ module.exports = {
 			if (result.length == 1 && Student.compare(req.body.password, result[0].password)) {
 				req.session.userName = username;
 				req.session.studentId = result[0].id;
-				res.redirect('/profile');
+				if(result[0].type != 1){
+					res.redirect('/profile');
+				}
+				else {
+					req.session.type = result[0].type;
+					res.redirect('/hr/hrDashboard');
+				}
 			}
 			else
 				res.redirect('/login')
-
 		});
 	},
 	loginGet: (req, res, next) => {
@@ -51,7 +56,6 @@ module.exports = {
 
 		if (await Authentication(req, res)) {
 			Position.getAllPositions(function (err, results) {
-				console.log("results");
 				res.render("user/profile", {
 					username: req.session.userName,
 					positions: results
@@ -62,29 +66,32 @@ module.exports = {
 		else
 			res.redirect('/login')
 		//Authentication(req,res).then(res.send('Welcome back, ' + req.session.userName + '!'));
-
 	},
 
 	uploadCV:async function (req, res, next) {
-		if (await Authentication(req, res)){
-		var form = new formidable.IncomingForm();
-		form.parse(req, function (err, fields, files) {
+		console.log(req.body);
+		if (await Authentication(req, res)) {
+			var form = new formidable.IncomingForm();
+			form.parse(req, function (err, fields, files) {
+				var posId = fields.posId;
+				var title = fields.title;
+				var oldpath = files.filetoupload.path;
+				var newpath = 'F:/Level 4 Term 1/IA Project/OnlineTestV1/public/CVS/' + req.session.userName +"_"+title+".pdf";
+				var absPath = req.session.userName +"_"+title.trim()+".pdf";
+				fs.removeSync(newpath, null);
+				console.log(fields.posId)
+				fs.move(oldpath, newpath, function (err) {
+					if (err) throw err;
+						// Student.addCV(absPath, req.session.userName, null);
+					 	Applicant.saveApplication(req.session.userName , posId , absPath ,null);
 
-		var oldpath = files.filetoupload.path;
-      var newpath = 'F:/Level 4 Term 1/IA Project/OnlineTestV1/public/CVS/' +req.session.userName+".pdf";
-      var absPath = req.session.userName+".pdf";
-	 //gomath path:F:\Level 4 Term 1\IA Project\OnlineTestV1\public\CVS
-	 
-	  fs.removeSync(newpath,null); 
-	  fs.move(oldpath, newpath, function (err) {
-		if (err) throw err;
-		Student.addCV(absPath,req.session.userName,null);
-		// Applicant.saveApplication()
-        res.write('File uploaded and moved!');
-        res.end();
-      });
-	})
-},
+
+					// res.end();
+				});
+				res.redirect("/profile");
+			})
+		}
+	},
 	checkUserName:function(req,res,next){
 		var userName = req.query.userName ;
 		console.log(userName[0])

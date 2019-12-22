@@ -1,4 +1,4 @@
-var Exam_Process = require("../../model/Exam_Process");
+var Exam_Process = require("../../model/exam_process");
 var Exam_Status = require("../../model/Exam_Status");
 var Student =  require("../../model/Student");
 Async  = require("async");
@@ -8,6 +8,7 @@ module.exports ={
         var user_name = req.param("user_name");
         var process_id = req.param("process_id");
         Exam_Process.findById(process_id , (err , result)=>{
+            console.log(result);
             res.render("exam/examList" , {Process :result})
         });
 
@@ -36,7 +37,7 @@ module.exports ={
                 let Body = "Hello Mr."+user_name+"\nhere is your exams that you should\n" +
                     " Take Respectly To To Full Acceptance\n ";
                 Body+="http://localhost:3000/ListExams/"+user_name+"/"+x;
-                Sender.SendMail(To , Subject , Body, res);
+                Sender.SendMail(To , Subject , Body, res , "/hr/ListApplicants");
             });
 
         })
